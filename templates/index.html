@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,55 +10,68 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <a href="#profile" class="brand">Faeiz</a>
-            <nav>
-                <a href="#profile">Profile</a>
-            </nav>
-        </div>
-    </header>
 
+<body>
+    <header class="profile-identity">
+        <div>
+            <h1>Faeiz Faiza Fasha</h1>
+            <p>Computer Science &middot; Universitas Indonesia</p>
+        </div>
+        <nav class="profile-links">
+            <a href="/manifesto">./manifesto</a>
+            <a href="/proyek">./proyek</a>
+            <a href="/tentang">./tentang</a>
+            <!-- <a href="https://github.com/faeiz-ff">GitHub</a> -->
+            <!-- <a href="https://id.linkedin.com/in/faeiz-faiza-fasha">LinkedIn</a> -->
+            <!-- <a href="mailto:faeizfaiza@google.com">Email</a> -->
+        </nav>
+    </header>
     <main>
-        <section class="hero" id="profile">
-            <div class="container hero-grid">
-                <div class="hero-identity">
-                    <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
-                    <h1>Faeiz Faiza Fasha</h1>
-                </div>
-                <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <!-- TODO: change this photo into my own -->
-                    <!-- TODO: change the max-width to not use inline css -->
-                    <img class="avatar" src="/static/img/agne.jpg" style="max-width: 300px;" alt="Photo of Agnes Tachyon, a fictional character from the anime series Umamusume">
-                </div>
-                <div class="hero-details">
-                    <p class="bio">Loved computers more than i thought i would</p>
-                    <dl class="meta-list">
-                        <div class="meta-row">
-                            <dt>NPM</dt>
-                            <dd>2506602196</dd>
-                        </div>
-                        <div class="meta-row">
-                            <dt>Program</dt>
-                            <dd>S1 Ilmu Komputer</dd>
-                        </div>
-                    </dl>
-                    <div class="social-links">
-                        <a href="https://github.com/faeiz-ff" class="social-link">GitHub</a>
-                        <a href="https://id.linkedin.com/in/faeiz-faiza-fasha" class="social-link">LinkedIn</a>
-                        <a href="mailto:faeizfaiza@google.com" class="social-link">Email</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class="main-page">
+            <section class="text-card">
+                <h2>Manifesto</h2>
+                <p>
+                    Saya menyukai pemrograman layaknya sebuah seni.
+                </p>
+                <p>
+                    Seni mempunyai tujuan yang umum: ekspresi diri. Seni adalah proses pengekspresian diri terhadap
+                    suatu medium. Apapun dapat menjadi medium seni asal terdapat tujuan untuk pengekspresian diri.
+                    Pemrograman adalah medium seni saya untuk mengekspresikan abstraksi logika efisien terhadap mesin.
+                </p>
+                <p>
+                    Saya berpendapat bahwa keobjektifitasan ilmu komputer &mdash; walau relatif lebih objektif &mdash;
+                    <em>tidak jauh</em> dengan keobjektifitasan seni. Saya tidak konform dengan nilai estetika awam:
+                    Tidak ada seni yang lebih buruk atau lebih indah dalam estetika secara objektif. Setiap seni
+                    mempunyai tujuan khusus mereka masing-masing bergantung terhadap pengekspresian diri seniman yang
+                    membuatnya. Seni dapat dibilang indah apabila karya tersebut dengan persis mengekspresikan apa yang
+                    ingin diekspresikan.
+                </p>
+                <p>
+                    Objektifitas suatu efisiensi algoritma hanyalah alat untuk melukis, untuk mengekspresikan tujuan
+                    khusus: efisiensi. Ilmu komputer <em>tidak selalu</em> mempunyai solusi objektif. Tidak ada program
+                    komputer yang tidak mempunyai <i>bug</i>. Semua kombinasi spesifikasi, limitasi, dan variasi
+                    menciptakan
+                    berbagai permasalahan unik, sehingga penyelesaiannya terasa seperti menulis puisi yang terus
+                    berevolusi, berproses.
+                </p>
+                <p>
+                    Seniman sejati tidak pernah menyepelekan proses pembuatan seni mereka. Bagi mereka, satu garis
+                    tarikan pensil, satu not bunyian instrumen, satu syairan kata, dan satu ketikan kode, mempunyai
+                    makna bagi keseluruhan karyanya. Setiap langkah dengan penuh keniatan, ketelitian, dan
+                    kehati-hatian.
+                </p>
+                <p>
+                    Itu prinsip saya dalam berprogam, berkarya.
+                </p>
+            </section>
+        </div>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
+    <footer>
+        <div>
             <p>&copy; 2026 Faeiz Faiza Fasha. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
 </body>
+
 </html>
