@@ -1,33 +1,50 @@
 @font-face {
-  font-family: 'CommitMono';
-  src: url('fonts/CommitMono-400-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+    font-family: 'CommitMono';
+    src: url('fonts/CommitMono-400-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
-*{
+* {
     margin: 0;
     color: var(--main-accent);
 }
 
 :root {
-    --main-bg:#FFEED6;
-    --main-accent:  #827148;
+    --main-bg: #fff6ec;
+    --main-accent: #A47251;
+    --main-secondary: #d67935;
     font-size: 1rem;
     font-family: 'CommitMono', monospace;
 }
 
 body {
     background-color: var(--main-bg);
-    padding: 25px 100px;
+    min-height: 100vh;
+    min-width: 100vw;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    gap: 2vw;
 }
 
-img {
-    max-width: 200px;
+main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+}
+
+a:hover {
+    color: var(--main-secondary);
+}
+
+.main-page {
+    flex-grow: 1;
+    padding: 5vh 6vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 2vh;
 }
 
 p {
@@ -38,52 +55,127 @@ a {
     font-size: 1.25rem;
 }
 
-.main-page {
+.main-content {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     row-gap: 2vw;
+    transition: 
+        opacity 200ms ease-in, 
+        transform 200ms ease-in;
 }
 
-.profile-identity {
+@starting-style {
+    .main-content {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+.main-header {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     column-gap: 2vw;
     align-items: flex-end;
+    padding-bottom: 2vh;
+    border-width: 1px;
+    border-color: var(--main-accent);
+    border-bottom-style: solid;
 }
 
-.profile-identity div {
-    height: 100h;
-    width: 100w;
+.main-header div {
     text-align: start;
 }
 
 .profile-links {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     column-gap: 1vw;
     align-items: flex-start;
 }
 
-.text-card p {
+article p {
     margin-bottom: 1vh;
 }
 
-.text-card h2 {
+article h2 {
     margin-bottom: 1vh;
 }
 
+.personal-photo {
+    max-width: 200px;
+    float: left;
+    shape-outside: url(/static/img/agne.jpg);
+    shape-margin: 100%;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+}
 
+.hero-page {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: row;
+    flex-grow: 1;
+    column-gap: 5vw;
+}
 
+.hero-headline {
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
 
+.hero-headline h1 {
+    font-size: 3rem;
+    display: inline;
+}
 
+.hero-headline span {
+    display: inline;
+    font-size: 1rem;
+}
 
+.hero-headline h2 {
+    font-size: 3rem;
+}
 
+.hero-navigations {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    gap: 2vw;
+}
 
+.link-button {
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 0.5rem;
+    font-size: 1rem;
+    flex-grow: 1;
+    background-color: var(--main-bg);
+    color: var(--main-accent);
+    border-color: var(--main-accent);
+    text-align: center;
+    text-decoration: none;
+}
 
+.link-button:hover {
+    background-color: var(--main-accent);
+    color: var(--main-bg);
+}
 
-
-
-
-
-
+.hero-decor {
+    display: grid;
+    flex-grow: 1;
+    max-width: 50%;
+    flex-direction: column;
+}

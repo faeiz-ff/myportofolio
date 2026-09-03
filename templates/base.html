@@ -5,37 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faeiz Faiza Fasha - Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
-    <header class="profile-identity">
+    <div class="main-page">
+    <header class="main-header">
         <div>
             <h1>Faeiz Faiza Fasha</h1>
-            <p>Computer Science &middot; Universitas Indonesia</p>
+            <p>Computer Science &commat; Universitas Indonesia</p>
         </div>
         <nav class="profile-links">
-            <a href="/manifesto">./manifesto</a>
+            <a href="/">./home</a>
             <a href="/proyek">./proyek</a>
-            <a href="/agne">./tentang</a>
-            <!-- <a href="https://github.com/faeiz-ff">GitHub</a> -->
-            <!-- <a href="https://id.linkedin.com/in/faeiz-faiza-fasha">LinkedIn</a> -->
-            <!-- <a href="mailto:faeizfaiza@google.com">Email</a> -->
+            <a href="/tentang">./tentang</a>
+            <a href="/manifesto">./manifesto</a>
         </nav>
     </header>
     <main>
         {% block content %}
         {% endblock %}
     </main>
-
     <footer>
         <div>
             <p>&copy; 2026 Faeiz Faiza Fasha. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
+    </div>
 </body>
 
 </html>
