@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from portofolio.views import landing_page
+from portofolio.views import landing_page, manifesto_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', landing_page, name='landing_page'),
+    path('manifesto', manifesto_page, name='manifesto_page'),
 ]
