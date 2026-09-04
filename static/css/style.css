@@ -51,7 +51,7 @@ p {
     text-align: justify;
 }
 
-a {
+.main-header nav a {
     font-size: 1.25rem;
 }
 
@@ -59,7 +59,7 @@ a {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    row-gap: 2vw;
+    row-gap: 2vh;
     transition: 
         opacity 200ms ease-in, 
         transform 200ms ease-in;
@@ -70,10 +70,6 @@ a {
         opacity: 0;
         transform: translateY(8px);
     }
-}
-
-@view-transition {
-    navigation: auto;
 }
 
 .main-header {
@@ -109,12 +105,7 @@ article h2 {
 }
 
 .personal-photo {
-    max-width: 200px;
-    float: left;
-    shape-outside: url(/static/img/agne.jpg);
-    shape-margin: 100%;
-    margin-right: 2rem;
-    margin-bottom: 1rem;
+    max-width: 400px;
 }
 
 .hero-page {
@@ -178,4 +169,23 @@ article h2 {
     flex-grow: 1;
     max-width: 50%;
     flex-direction: column;
+}
+
+.about-info {
+    display: flex;
+    flex-direction: row;
+    column-gap: 2vw;
+}
+
+.about-details nav {
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.about-details {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    row-gap: 2vh;
 }
