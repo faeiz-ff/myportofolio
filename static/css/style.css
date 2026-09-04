@@ -15,6 +15,17 @@
     --main-bg: #fff6ec;
     --main-accent: #A47251;
     --main-secondary: #d67935;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-bg: #A47251;
+    --main-accent: #fff6ec;
+    --main-secondary: #ccc3b0;
+  }
+}
+
+:root {
     font-size: 1rem;
     font-family: 'CommitMono', monospace;
 }
@@ -106,6 +117,8 @@ article h2 {
 
 .personal-photo {
     max-width: 400px;
+    border: 1px solid var(--main-accent);
+    border-radius: 5px;
 }
 
 .hero-page {
