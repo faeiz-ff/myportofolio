@@ -32,7 +32,7 @@ ter-ringkas Gemini AI, tetapi tidak ada kode yang saya _copy-paste_.
 
 ## Referensi
 
-- Django Template Template Inheritance: [Django documentation](https://docs.djangoproject.com/en/6.1/ref/templates/language/#template-inheritance)
+- Django Template Inheritance: [Django documentation](https://docs.djangoproject.com/en/6.1/ref/templates/language/#template-inheritance)
 - CSS Flexbox: [css-tricks](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 - CSS Fadein: [carmenansio](https://www.carmenansio.com/articles/css-entry-exit-animations) 
 - prefers-color-scheme: [web.dev](https://web.dev/articles/prefers-color-scheme)
