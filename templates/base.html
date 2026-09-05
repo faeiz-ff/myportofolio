@@ -13,28 +13,28 @@
     <header class="main-header">
         <div>
             <h1>Faeiz &middot; Portfolio </h1>
-            <p>Computer Science &commat; Universitas Indonesia</p>
+            <p>Ilmu Komputer &commat; Universitas Indonesia</p>
         </div>
-        <nav class="profile-links">
+        <nav class="site-links">
             <a href="/">./home</a>
             <a href="/proyek">./proyek</a>
             <a href="/tentang">./tentang</a>
             <a href="/manifesto">./manifesto</a>
         </nav>
-        <label class="theme-picker">
-            <input type="checkbox" id="theme-light" name="theme-light" checked/>
-            <span id="theme-picker-light">Light</span>
-            <span id="theme-picker-dark">Dark</span>
-        </label>
     </header>
     <main>
         {% block content %}
         {% endblock %}
     </main>
-    <footer>
+    <footer class="main-footer">
         <div>
             <p>&copy; 2026 Faeiz Faiza Fasha. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
+        <label class="theme-picker">
+            <input type="checkbox" id="theme-light" name="theme-light" checked/>
+            <span id="theme-picker-light">Light</span>
+            <span id="theme-picker-dark">Dark</span>
+        </label>
     </footer>
     </div>
 
