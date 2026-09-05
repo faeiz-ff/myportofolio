@@ -3,8 +3,84 @@
 {% block content %}
     <section class="main-content">
         <article>
-            <h2>Project</h2>
-            <p>Theres gonna be a ton of stuff here (two)</p>
+            <h2>Proyek</h2>
+            <ul class="project-list">
+                <li>
+                    <section class="project-item">
+                        <h3>Simpl: Indonesian Mini Programming Language (Oct 2025 - Jan 2026)</h3>
+                        <nav>
+                            <a class="link-button" href="https://github.com/faeiz-ff/simpl">GitHub</a>
+                            <a class="link-button" href="https://bahasa-simpl.pages.dev">Website</a>
+                        </nav>
+                        <p>
+                            Simpl merupakan bahasa pemrograman yang saya buat untuk lebih mudah menerjemahkan 
+                            konsep pemrograman ke bahasa indonesia. Ini cobaan pertama saya dalam membuat bahasa 
+                            yang relatif bisa digunakan untuk mengekspresikan program apapun secara umum. 
+                            Saya melihat Simpl sebagai <i>pseudocode</i> bahasa indonesia yang bisa dijalankan.
+                        </p>
+                        <p>
+                            Proyek ini mengajari saya banyak hal, utamanya terkait teknik kompilator. Tapi saya sendiri jadi
+                            lebih tau tentang bahasa JavaScript yang saya gunakan untuk membangun bahasa ini &mdash; 
+                            benar sekali, bahasa <i>interpreted</i> dalam bahasa <i>interpreted</i>. Bisa dibilang proyek
+                            ini membuat saya fasih berbahasa JavaScript dan hal-hal <i>Object Oriented</i>. Namun, 
+                            saya sangat menyesal tidak membangun proyek ini dalam TypeScript, karena saya banyak sekali
+                            mengalami <i>Type Error</i> dengan banyaknya <i>polymorphism</i> yang terjadi. Saya jadi
+                            belajar untuk mencintai bahasa <i>strongly-typed</i>.
+                        </p>
+                        <p>
+                            Saya juga membuat website Simpl memakai TypeScript dengan stack: React + Tailwind 
+                            untuk frontend, React-Router untuk routing, Vite untuk build tool. Hal tersebut juga 
+                            mengajari saya banyak tentang mendesain website, ekosistem JavaScript yang sangat...
+                            err... begitulah. <i>It's still fun though.</i>
+                        </p>
+                    </section>
+                </li>
+                <li>
+                    <section class="project-item">
+                        <h3>luv Programming Language (May 2026 - still in development)</h3>
+                        <nav>
+                            <a class="link-button" href="https://github.com/faeiz-ff/luv">GitHub</a>
+                        </nav>
+                        <p>
+                            Luv adalah bahasa pemrograman yang simpel dengan tampilan yang 'halus' dan sistem
+                            typing yang kuat. Sintaksisnya terinspirasi dari Go, Rust, Zig, dan Python. Luv 
+                            menggabungkan <i>Object-Prototype runtime model</i> dari JavaScript dan sistem 
+                            tipe statis dari TypeScript dalam satu bahasa. Kenapa? Karena itu model bahasa menarik 
+                            yang relatif simpel untuk diimplementasi.
+                        </p>
+                        <p>
+                            Lalu, kenapa bahasa baru lagi? &mdash; yang kemungkinan besar orang tidak akan pakai juga 
+                            &mdash; Karena tujuan utama saya bukan hanya untuk membangun bahasa, tetapi juga untuk
+                            mempelajari sistem <i>low-level</i>. Proyek ini amat sangat membantu saya lebih memahami
+                            konsep sistem komputer: manajemen memori, alokator, <i>lifetime</i>, <i>ownership</i>,
+                            dan lain-lain; karena proyek ini menggunakan bahasa yang <i>compiled</i>: Bahasa pemrograman
+                            Zig.
+                        </p>
+                        <p>
+                            <a href="https://github.com/faeiz-ff/luv-c">Awalnya saya memakai bahasa C</a>, dan iya, 
+                            saya menjadi tahu betapa simpel dan bebasnya bahasa C, saya menjadi mengerti bahasa C. 
+                            Tetapi saya harus akui, saya terganggu dengan intrikasi mekanisme bahasa C yang sangat 
+                            samar; penuh hal tersembunyi. Saya merasa kesulitan untuk memahami konsep sistem yang 
+                            sebenarnya. Lalu saya menemukan bahasa Zig.
+                        </p>
+                        <p>
+                            Saya jatuh cinta saat pertama kali memakai Zig. Bahasanya simpel, eksplisit, dan tidak mempunyai
+                            intrikasi samar seperti bahasa C. Bahasanya sangat modern, ergonomis, tetap manual seperti C, 
+                            bahkan lebih manual dalam beberapa kasus. Saya merasa lebih mengerti C setelah bermain-main 
+                            dengan Zig.
+                        </p>
+                        <p>
+                            Karena alasan pembelajaran tersebut, saya merasa Rust kurang cocok untuk dipilih di proyek
+                            ini. Rust lebih tergolong high-level &mdash; ini pujian untuk bahasa yang dikompilasi &mdash;
+                            daripada Zig atau C. Mungkin saya akan kurang mengerti hal yang sebenarnya terjadi di 
+                            balik abstraksi yang Rust tawarkan. <i>Still, I love all languages though.</i>
+                        </p>
+                    </section>
+                </li>
+                <li>
+                    <h3>dan semua proyek yang terabaikan :,(</h3>
+                </li>
+            </ul>
         </article>
     </section>
 {% endblock %}

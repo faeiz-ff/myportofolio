@@ -8,7 +8,7 @@
 
 * {
     margin: 0;
-    color: var(--main-accent);
+    color: var(--main-text);
 }
 
 :root {
@@ -22,9 +22,17 @@
         color-scheme: dark;
     }
 
-    --main-bg: light-dark(#fff6ec, #B36140);
-    --main-accent: light-dark(#B36140, #fff6EC);
-    --main-secondary: light-dark(#D67935, #CCC3B0);
+    --main-bg: light-dark(#fff6ec, #131211);
+    --main-accent: light-dark(#B36140, #d58362);
+    --main-text: light-dark(#131211, #fff6ec);
+}
+
+a {
+    text-decoration: underline;
+}
+
+h1, h2, h3 {
+    color: var(--main-accent);
 }
 
 .theme-picker {
@@ -33,17 +41,16 @@
         text-align: center;
         user-select: none;
         background-color: var(--main-bg);
-        color: var(--main-accent);
         border-radius: 5px;
         border-width: 1px;
         border-style: solid;
         padding: 0.5rem;
-        border-color: var(--main-accent);
+        border-color: var(--main-text);
         text-align: center;
         text-decoration: none;
 
         &:hover {
-            background-color: var(--main-accent);
+            background-color: var(--main-text);
             color: var(--main-bg);
         }
     }
@@ -96,7 +103,7 @@ main {
 }
 
 a:hover {
-    color: var(--main-secondary);
+    color: var(--main-accent);
 }
 
 .main-page {
@@ -222,15 +229,14 @@ article h2 {
     font-size: 1rem;
     flex-grow: 1;
     background-color: var(--main-bg);
-    color: var(--main-accent);
-    border-color: var(--main-accent);
+    border-color: var(--main-text);
     text-align: center;
     text-decoration: none;
-}
 
-.link-button:hover {
-    background-color: var(--main-accent);
-    color: var(--main-bg);
+    &:hover {
+        background-color: var(--main-text);
+        color: var(--main-bg);
+    }
 }
 
 .hero-decor {
@@ -257,4 +263,20 @@ article h2 {
     flex-grow: 1;
     justify-content: center;
     row-gap: 2vh;
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+
+.project-item {
+    display: flex;
+    flex-direction: column;
+
+    nav {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
 }
