@@ -12,17 +12,67 @@
 }
 
 :root {
-    --main-bg: #fff6ec;
-    --main-accent: #A47251;
-    --main-secondary: #d67935;
+    color-scheme: light dark;
+
+    &:has(#theme-light:checked) {
+        color-scheme: light;
+    }
+
+    &:has(#theme-light:not(checked)) {
+        color-scheme: dark;
+    }
+
+    --main-bg: light-dark(#fff6ec, #B36140);
+    --main-accent: light-dark(#B36140, #fff6EC);
+    --main-secondary: light-dark(#D67935, #CCC3B0);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --main-bg: #A47251;
-    --main-accent: #fff6ec;
-    --main-secondary: #ccc3b0;
-  }
+.theme-picker {
+    span {
+        width: 5svw;
+        text-align: center;
+        user-select: none;
+        background-color: var(--main-bg);
+        color: var(--main-accent);
+        border-radius: 5px;
+        border-width: 1px;
+        border-style: solid;
+        padding: 0.5rem;
+        border-color: var(--main-accent);
+        text-align: center;
+        text-decoration: none;
+
+        &:hover {
+            background-color: var(--main-accent);
+            color: var(--main-bg);
+        }
+    }
+
+    input {
+        opacity: 0;
+        position: absolue;
+        pointer-events: none;
+    }
+
+    &:has(#theme-light:checked) {
+        #theme-picker-dark {
+            display: none;
+        }
+
+        #theme-picker-light {
+            display: block;
+        }
+    }
+
+    &:has(#theme-light:not(checked)) {
+        #theme-picker-light {
+            display: none;
+        }
+
+        #theme-picker-dark {
+            display: block;
+        }
+    }
 }
 
 :root {
@@ -71,8 +121,8 @@ p {
     flex-grow: 1;
     flex-direction: column;
     row-gap: 2vh;
-    transition: 
-        opacity 200ms ease-in, 
+    transition:
+        opacity 200ms ease-in,
         transform 200ms ease-in;
 }
 
@@ -149,6 +199,12 @@ article h2 {
 
 .hero-headline h2 {
     font-size: 3rem;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
 }
 
 .hero-navigations {

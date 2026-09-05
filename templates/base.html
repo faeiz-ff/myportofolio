@@ -21,6 +21,11 @@
             <a href="/tentang">./tentang</a>
             <a href="/manifesto">./manifesto</a>
         </nav>
+        <label class="theme-picker">
+            <input type="checkbox" id="theme-light" name="theme-light" checked/>
+            <span id="theme-picker-light">Light</span>
+            <span id="theme-picker-dark">Dark</span>
+        </label>
     </header>
     <main>
         {% block content %}
@@ -32,6 +37,29 @@
         </div>
     </footer>
     </div>
+
+    <script>
+        // Theme Picker Logic
+        const themeCheckBox = document.getElementById('theme-light');
+        const savedTheme = localStorage.getItem('theme-color');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+
+        if (savedTheme === 'light') {
+            themeCheckBox.checked = true;
+        } else if (savedTheme === 'dark') {
+            themeCheckBox.checked = false;
+        } else if (prefersLight) {
+            themeCheckBox.checked = true;
+            localStorage.setItem('theme-color', 'light');
+        } else {
+            themeCheckBox.checked = false;
+            localStorage.setItem('theme-color', 'dark');
+        }
+
+        themeCheckBox.addEventListener('change', (e) => {
+            localStorage.setItem('theme-color', e.target.checked ? 'light' : 'dark');
+        });
+    </script>
 </body>
 
 </html>

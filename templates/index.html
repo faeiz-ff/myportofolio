@@ -13,6 +13,15 @@
         <main>
             <div class="main-content">
                 <div class="hero-page">
+                    <label class="theme-picker" hidden>
+                        <!-- The CSS needs a theme light element ID checked condition to know the theme -->
+                        <!-- but it need not to show in the hero page unless i make room for it -->
+                        <!-- there is currently no room for it -->
+                        <!-- TODO: undirty this -->
+                        <input type="checkbox" id="theme-light" name="theme-light" />
+                        <span id="theme-picker-light">Light</span>
+                        <span id="theme-picker-dark">Dark</span>
+                    </label>
                     <div class="hero-headline">
                         <div>
                             <h1>Faeiz.</h1> <span>(aspiring)</span>
@@ -35,6 +44,25 @@
             </div>
         </main>
     </div>
+    <script>
+        //TODO: undirty this
+        //      refer to the theme-light element in the html
+        const themeCheckBox = document.getElementById('theme-light');
+        const savedTheme = localStorage.getItem('theme-color');
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+
+        if (savedTheme === 'light') {
+            themeCheckBox.checked = true;
+        } else if (savedTheme === 'dark') {
+            themeCheckBox.checked = false;
+        } else if (prefersLight) {
+            themeCheckBox.checked = true;
+            localStorage.setItem('theme-color', 'light');
+        } else {
+            themeCheckBox.checked = false;
+            localStorage.setItem('theme-color', 'dark');
+        }
+    </script>
 </body>
 
 </html>
