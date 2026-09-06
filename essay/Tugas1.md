@@ -1,13 +1,19 @@
 
 # Tugas 1
 
+## Setup
+
+Pada saat masa Tugas 1, proyek ini tidak menggunakan _dependency_ apa saja selain yang diinstruksikan pada Tutorial 1.
+Jadi, setup hanya seperti yang diinstruksikan juga. _Clone_ repositori ini, lalu aktivasi venv, install _dependency_,
+dan jalankan django untuk dev local dengan `python manage.py runserver`.
+
 ## [Pertanyaan Reflektif](https://pbp.cs.ui.ac.id/assignments/individual/tugas-1.html#pertanyaan-reflektif)
 
 > 1. Pada Tutorial dan Tugas 1, Anda diberi kebebasan untuk menentukan tampilan dari website portofolio Anda. Saat Anda merancang struktur HTML yang digunakan, apakah Anda menggunakan elemen semantik HTML5 seperti <section>, <article>, atau <aside>? Jika iya, bagaimana elemen tersebut membantu Anda dalam membuat static web? Jika tidak, mengapa tanpa elemen tersebut sudah memenuhi kebutuhan desain Anda? 
 
 Saya menggunakan elemen seperti `<section>`, `<article>`, `<i>` untuk italics, `<em>` untuk emphasis dan elemen semantik
-html lainnya untuk menyangkutkan makna ke tujuan elemen itu ada. Hal tersebut membantu 'a11y' untuk _screen readers_, juga
-membantu SEO (_Search Engine Optimization_) karena browser memahami bagaimana halaman statis web saya terstruktur.
+html lainnya untuk menyangkutkan makna ke pada elemen. Hal tersebut membantu 'a11y', aksesibilitas untuk _screen readers_,
+juga membantu SEO (_Search Engine Optimization_) karena browser memahami bagaimana halaman statis web saya terstruktur.
 
 > 2. Ketika Anda mengatur CSS Anda agar tetap responsive, tantangan tata letak apa yang Anda temukan? Bagaimana Anda mengevaluasi elemen mana yang harus diubah posisinya atau diprioritaskan ukurannya saat berpindah dari tampilan desktop ke mobile? 
 
@@ -28,7 +34,16 @@ dengan javascript, tetapi saya akan simpan untuk poin bonus tugas selanjutnya :)
 
 Semua kode dalam tugas 1 ini __100% diketik tanpa menggunakan AI__. Saya juga __tidak memakai AI untuk mendesain, memberi ide,
 ataupun mengedit hal-hal tekstual__ dalam tugas ini. __Namun__, saya tidak jarang membaca hasil search result google yang
-ter-ringkas Gemini AI, tetapi tidak ada kode yang saya _copy-paste_.
+ter-ringkas Gemini AI dalam pencarian elemen html/layouting css, tetapi tidak ada kode yang saya _copy-paste_.
+
+Untuk proses pemecahan masalah mandiri, saya rasa tugas pertama masih sekadar perkenalan terhadap html/css yang dasar, di
+mana saya sendiri sudah pernah mempelajari sebagiannya sebelum tugas ini. Pemecahan masalah yang ada terbilang cukup trivial,
+hanya atur boks mana yang terlipat ke arah mana, _ad infinitum_. Tentunya, bukan tanpa _trial and error_, jeda antar _commit_
+yang cukup lama menandakan saya sedang bereksperimentasi dengan tata letak halaman halaman saya. Saya tidak mengatakan saya
+merupakan _front-end web designer_, tapi soal desain, saya hanya ingin terlihat apik.
+
+Saya tidak _oppose_ penggunaan AI yang teratur dan bijak, hanya saja saya rasa tugas 1 ini masih di jangkauan pengetahuan
+dan keniatan saya.
 
 ## Referensi
 
