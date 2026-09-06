@@ -199,9 +199,6 @@ article {
 
 .personal-photo {
     max-width: 400px;
-
-    border: 1px solid var(--main-accent);
-    border-radius: 5px;
 }
 
 .link-button {
