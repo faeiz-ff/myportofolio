@@ -19,9 +19,13 @@ juga membantu SEO (_Search Engine Optimization_) karena browser memahami bagaima
 
 Saya melakukan kesalahan dimana saya tidak mendesain dengan tujuan awal _mobile-first_. Jadi, banyak elemen harus saya susun
 ulang. Saya memakai banyak `flexbox` dalam css saya untuk mengatur tata letak dengan intuitif, umumnya saya hanya mengubah 
-arah flex dari yang kiri-kanan menjadi atas-bawah. Pengukuran elemen sangat dibantu dengan "pengukuran relatif" seperti 
-persentase tinggi/lebar `svh`/`svw` (Smallest Viewport Height/Width, agar layar mobile menghitung ukuran tinggi/lebar 
-tanpa halangan search bar) dan tekstual seperti `rem` yang menyesuaikan ukuran elemen relatif terhadap ukuran font layar.
+arah flex dari yang kiri-kanan menjadi atas-bawah. `flexbox` berubah arah ketika mencapai batas lebar layar tertentu. Saya menggunakan _max-width breakpoint_ yang mengubah atribut css pada ukuran layar tertentu: Pada ukuran tablet: 1024px, ukuran 
+layar smartphone: 768px. Font-size antar _breakpoint_ juga saya ganti agar pengukuran terhadap `rem` dapat menyesuaikan. Saya 
+sudah test pada Firefox saya bahwa layar hingga lebar 300px masih aman dan tidak merusak layout. 
+
+Pengukuran elemen juga sangat dibantu dengan "pengukuran relatif" seperti persentase tinggi/lebar `svh`/`svw` (Smallest 
+Viewport Height/Width, agar layar mobile menghitung ukuran tinggi/lebar tanpa halangan search bar) dan tekstual seperti 
+`rem` yang menyesuaikan ukuran elemen relatif terhadap ukuran font layar.
 
 > 3. Website yang Anda buat saat ini adalah static web murni. Batasan apa yang Anda rasakan saat mencoba menyajikan informasi pada portofolio Anda secara optimal? Berdasarkan batasan tersebut, fungsionalitas dinamis apa yang paling ingin Anda persiapkan dan tambahkan pada iterasi proyek selanjutnya? 
 
