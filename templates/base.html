@@ -18,7 +18,8 @@
         <nav class="site-links">
             <a href="/">./home</a>
             <a href="/proyek">./proyek</a>
-            <a href="/tentang">./tentang</a>
+            <a href="{% url 'main:show_main' %}">./tentang</a>
+            <a href="{% url 'main:show_experience' %}">./pengalaman</a>
             <a href="/manifesto">./manifesto</a>
         </nav>
     </header>
