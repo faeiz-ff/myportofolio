@@ -85,7 +85,9 @@ article {
 }
 
 ul {
-  list-style-type: disc;
+    padding-left: 1rem;
+    list-style-type: square;
+    color: var(--main-accent);
 }
 
 li::marker {
@@ -257,12 +259,6 @@ li::marker {
     span {
         display: inline;
         font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-        p br {
-            display: none;
-        }
     }
 }
 
