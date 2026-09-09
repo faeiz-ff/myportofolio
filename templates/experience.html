@@ -2,35 +2,35 @@
 
 {% block content %}
 <main>
-    <section class="experience-section main-section" id="experience">
-        <div class="container">
-            <p class="section-kicker">Perjalanan saya sejauh ini</p>
-            <h1>Experience</h1>
-
-            <div class="experience-grid">
+    <section class="main-section" id="experience">
+        <article>
+            <h2>Pengalaman Saya</h2>
+            <ul>
                 {% for experience in experience_list %}
-                    <article class="experience-card">
-                        <span class="experience-category">
-                            {{ experience.get_category_display }}
-                        </span>
-                        <h2>{{ experience.title }}</h2>
-                        <p class="experience-description">
-                            {{ experience.description }}
-                        </p>
-
+                <li class="project-item">
+                    <h3>{{ experience.title }} (
                         {% if experience.is_ongoing %}
-                            <p class="experience-status">Sedang berlangsung</p>
+                        Sedang berlangsung
                         {% else %}
-                            <p class="experience-status">Selesai</p>
+                        Selesai
                         {% endif %}
-                    </article>
-                {% empty %}
-                    <p class="empty-state">
-                        Belum ada pengalaman yang ditambahkan.
+                        )
+                    </h3>
+                    <p>
+                        {{ experience.get_category_display }}.
                     </p>
+                    <p>
+                        {{ experience.description }}
+                    </p>
+
+                </li>
+                {% empty %}
+                <p>
+                    Belum ada pengalaman yang ditambahkan.
+                </p>
                 {% endfor %}
-            </div>
-        </div>
+            </ul>
+        </article>
     </section>
 </main>
 {% endblock %}
