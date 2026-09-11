@@ -111,7 +111,7 @@ DATABASES = {
     }
 }
 
-CSRF_TRUSTED_ORIGINS = ['localhost', '127.0.0.1',
+CSRF_TRUSTED_ORIGINS = ['https://127.0.0.1',
                         'https://faeiz-faiza-myportofolio.pws.cs.ui.ac.id']
 
 # Password validation
