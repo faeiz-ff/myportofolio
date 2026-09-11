@@ -21,7 +21,7 @@ class Experience(models.Model):
         max_length=20, choices=EXPERIENCE_CHOICES, default='full-time')
     thumbnail = models.URLField(blank=True, null=True)
     started_at = models.DateField(default=django.utils.timezone.now)
-    ended_at = models.DateField(null=True)
+    ended_at = models.DateField(blank=True, null=True)
 
     def __str__(self) -> str:
         return str(self.title)
@@ -46,11 +46,11 @@ class Experience(models.Model):
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
-    git_link = models.URLField(null=False)
-    other_link = models.URLField(null=False)
+    git_link = models.URLField()
+    other_link = models.URLField(blank=True, null=True)
     description = models.TextField()
     started_at = models.DateField(default=django.utils.timezone.now)
-    ended_at = models.DateField(null=True)
+    ended_at = models.DateField(blank=True, null=True)
 
     @property
     def has_other_link(self) -> bool:
