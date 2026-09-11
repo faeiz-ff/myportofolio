@@ -41,3 +41,35 @@ class Experience(models.Model):
                 " - %b %Y") if not self.is_ongoing else ""
 
         return time_str
+
+
+class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=255)
+    git_link = models.URLField(null=False)
+    other_link = models.URLField(null=False)
+    description = models.TextField()
+    started_at = models.DateField(default=django.utils.timezone.now)
+    ended_at = models.DateField(null=True)
+
+    @property
+    def has_other_link(self) -> bool:
+        if self.other_link == "":
+            return False
+        return True
+
+    @property
+    def is_ongoing(self) -> bool:
+        if self.ended_at is None:
+            return True
+
+        return self.ended_at > date.today()
+
+    @property
+    def get_time_range_str(self) -> str:
+        time_str = self.started_at.strftime("%b %Y")
+        if self.ended_at is not None:
+            time_str += self.ended_at.strftime(
+                " - %b %Y") if not self.is_ongoing else ""
+
+        return time_str
