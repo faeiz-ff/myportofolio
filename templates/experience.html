@@ -4,12 +4,12 @@
 <main>
     <section class="main-content" id="experience">
         <article>
-            <h2>Pengalaman Saya</h2>
+            <h1>Pengalaman Saya</h1>
             <ul>
                 {% for experience in experience_list %}
                 <li>
                     <div class="project-item">
-                    <h3>{{ experience.title }}</h3>
+                    <h2>{{ experience.title }}</h2>
                     <p>
                         {{ experience.get_category_display }}.
                         [ {{ experience.get_time_range_str }}

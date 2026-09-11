@@ -78,6 +78,7 @@ p {
 article {
 
     p,
+    h1,
     h2,
     h3{
         margin-bottom: 1svh;
@@ -112,7 +113,7 @@ li::marker {
         align-items: center;
         row-gap: 1svh;
 
-        div h1 {
+        div p {
             text-align: center;
         }
     }
@@ -125,6 +126,11 @@ li::marker {
         column-gap: 2svw;
         row-gap: 2svh;
     }
+}
+
+#main-header-title {
+    font-size: 2rem;
+    color: var(--main-accent);
 }
 
 .main-footer {
