@@ -7,6 +7,13 @@
             <section class="project-item">
                 <article>
                     <h2>{{ project.title }}</h2>
+                    <p>[
+                        {{ project.get_time_range_str }} 
+                        {% if project.is_ongoing %} 
+                        - dalam pembangunan
+                        {% endif %}
+                        ]
+                    </p>
                     <nav>
                         <a class="link-button" href="{{ project.git_link }}">GitHub</a>
                         {% if project.has_other_link %}
