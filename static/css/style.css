@@ -280,6 +280,7 @@ li::marker {
 }
 
 .about-info {
+    margin-top: 2vh;
     display: flex;
     flex-direction: row;
     column-gap: 2svw;
