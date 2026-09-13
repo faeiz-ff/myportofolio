@@ -3,7 +3,7 @@ from datetime import date
 from django.test import TestCase
 from django.urls import reverse
 
-from main.models import Experience, Project
+from main.models import Experience, Project, Blog
 
 
 class MainTest(TestCase):
@@ -23,6 +23,18 @@ class MainTest(TestCase):
             description="basic description",
             started_at=date(2025, 10, 1),
             ended_at=date(2026, 1, 1),
+        )
+
+        self.blog = Blog.objects.create(
+            title="Dear Diary",
+            text=(
+                "If compsci has a million fans, then I am one of them. If "
+                "compsci has ten fans then I am one of them. If compsci has "
+                "only one fan then that is me. If compsci has no fans, then "
+                "that means I am no longer on earth. If the world is against "
+                "compsci, then I am against the world."
+            ),
+            created_at=date(2026, 7, 3),
         )
 
     def test_main_url_is_accessible(self):
@@ -85,3 +97,21 @@ class MainTest(TestCase):
             response,
             "Nantikan proyek terbaru saya yang sangat ambisius dan menarik bagi para investor."
         )
+
+    def test_blog_page(self):
+        response = self.client.get(reverse("main:show_blog"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "blog.html")
+        self.assertContains(response, self.blog.title)
+        self.assertContains(response, self.blog.created_at_str)
+
+    def test_blog_post_page(self):
+        response = self.client.get(
+            reverse("main:show_blog_post", kwargs={'title': self.blog.title}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "blog_post.html")
+        self.assertContains(response, self.blog.title)
+        self.assertContains(response, self.blog.text)
+        self.assertContains(response, self.blog.created_at_str)
