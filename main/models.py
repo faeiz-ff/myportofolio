@@ -73,3 +73,14 @@ class Project(models.Model):
                 " - %b %Y") if not self.is_ongoing else ""
 
         return time_str
+
+
+class Blog(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=255)
+    text = models.TextField()
+    created_at = models.DateField(default=django.utils.timezone.now)
+
+    @property
+    def created_at_str(self) -> str:
+        return self.created_at.strftime("%d %b %Y")
