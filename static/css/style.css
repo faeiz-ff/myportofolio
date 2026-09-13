@@ -75,19 +75,18 @@ p {
     text-align: justify;
 }
 
-article {
-
-    p,
-    h1,
-    h2,
-    h3{
-        margin-bottom: 1svh;
-    }
+article * {
+    margin-bottom: 1svh;
 }
 
 ul {
     padding-left: 1rem;
     list-style-type: square;
+    color: var(--main-accent);
+}
+
+ol {
+    padding-left: 2rem;
     color: var(--main-accent);
 }
 
