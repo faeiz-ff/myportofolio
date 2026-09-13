@@ -6,6 +6,7 @@ Faeiz Faiza Fasha, 2506602196, PBP E.
 ## Tugas Refleksi
 
 - [Tugas 1](https://github.com/faeiz-ff/myportofolio/blob/main/essay/Tugas1.md)
+- [Tugas 2](https://github.com/faeiz-ff/myportofolio/blob/main/essay/Tugas2.md)
 
 ## Atribusi
 
