@@ -9,20 +9,14 @@
         <h1>Proyek</h1>
         <form method="get"
               action="{% url 'main:show_project' %}"
-              class="project-search">
+              class="project-search form-group">
             <input type="search"
                    name="title"
                    value="{{ title_query }}"
                    placeholder="Cari berdasarkan nama proyek"
-                   class="project-search__input"
                    aria-label="Cari berdasarkan nama proyek"/>
             <button type="submit" class="button">Cari</button>
         </form>
-        <a href="{% url 'main:create_project' %}"
-           class="button project-add-button">
-            <span aria-hidden="true">+</span>
-            Tambah Proyek
-        </a>
         {% for project in project_list %}
             <section class="project-item">
                 <article>
@@ -35,12 +29,6 @@
                         ]
                     </p>
                     <nav>
-                    <div class="project-actions">
-                        {% if project.project_url %}
-                            <a href="{{ project.project_url }}" class="button">Lihat Project</a>
-                        {% endif %}
-                        {% include "components/project_delete_modal.html" with project=project %}
-                    </div>
                         <a class="link-button" href="{{ project.git_link }}">GitHub</a>
                         {% if project.has_other_link %}
                         <a class="link-button" href="{{ project.other_link }}">Website</a>

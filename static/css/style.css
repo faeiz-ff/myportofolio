@@ -357,6 +357,18 @@ button {
     }
 }
 
+.project-search {
+    display: flex;
+    flex-direction: row;
+    column-gap: 2svw;
+    width: 100%;
+    max-width: 100%;
+
+    input {
+        flex-grow: 1;    
+    }
+}
+
 .model-form {
     margin-top: 1svh;
     width: 100%;
