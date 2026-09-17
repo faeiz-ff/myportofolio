@@ -21,7 +21,7 @@ class ProjectForm(ModelForm):
             'other_link': 'Link lainnya tentang proyek',
             'description': 'Deskripsi proyek',
             'started_at': 'Tanggal proyek dimulai',
-            'ended_at': 'Tanggak proyek diselesaikan',
+            'ended_at': 'Tanggal proyek diselesaikan',
         }
 
         widgets = {

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.core import serializers
+from django.forms import ModelForm
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.safestring import mark_safe
@@ -67,19 +68,35 @@ def show_blog_post(request: HttpRequest, title: str):
 
 
 def create_project(request: HttpRequest):
-    form = ProjectForm(request.POST or None)
+    return create_model_object(
+        request,
+        ProjectForm,
+        "Proyek",
+        "main:show_project",
+    )
+
+
+def create_model_object(
+    request: HttpRequest,
+    form_model: type[ModelForm],  # I love higher order types
+    form_name: str,
+    form_redirect: str,
+):
+    form = form_model(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         form.save()
-        messages.success(request, "Proyek baru berhasil ditambahkan!")
-        return redirect("main:show_project")
+        messages.success(request, form_name + " baru berhasil ditambahkan!")
+        return redirect(form_redirect)
 
     context = {
-        'name': 'burhan',
+        'name': 'Faeiz Faiza Fasha',
         'form': form,
+        'form_name': form_name,
+        'form_redirect': form_redirect,
     }
 
-    return render(request, 'project_form.html', context)
+    return render(request, "model_form.html", context)
 
 
 def get_projects_json(request):

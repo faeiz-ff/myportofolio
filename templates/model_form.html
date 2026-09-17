@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Add Project - {{ name }}</title>
+<title>Add {{ form_name }} - {{ name }}</title>
 {% endblock meta %}
 
 {% block content %}
-<main>
-    <section class="experience-section">
+    <section class="main-section">
         <div class="container">
-            <h1>Add New Projects</h1>
-            <form method="post" action="{% url 'main:create_project' %}" class="project-form">
+            <h1>Tambah {{ form_name }} Baru</h1>
+            <form method="post" action="{% url form_redirect %}" class="model-form">
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="form-group">
@@ -20,10 +19,11 @@
                     {% endfor %}
                 </div>
                 {% endfor %}
-                <button type="submit" class="button">Tambah Project</button>
-                <a href="{% url 'main:show_project' %}" class="button button-secondary">Batal</a>
+                <div class="form-footer">
+                    <button type="submit">Tambah {{ form_name }}</button>
+                    <a href="{% url form_redirect %}" class="link-button">Batal</a>
+                </div>
             </form>
         </div>
     </section>
-</main>
 {% endblock content %}
