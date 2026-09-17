@@ -73,6 +73,7 @@ def create_project(request: HttpRequest):
         ProjectForm,
         "Proyek",
         "main:show_project",
+        "main:create_project",
     )
 
 
@@ -81,6 +82,7 @@ def create_model_object(
     form_model: type[ModelForm],  # I love higher order types
     form_name: str,
     form_redirect: str,
+    form_create: str,
 ):
     form = form_model(request.POST or None)
 
@@ -94,6 +96,7 @@ def create_model_object(
         'form': form,
         'form_name': form_name,
         'form_redirect': form_redirect,
+        'form_create': form_create,
     }
 
     return render(request, "model_form.html", context)
