@@ -5,7 +5,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.safestring import mark_safe
 
-from main.forms import ProjectForm
+from main.forms import BlogForm, ProjectForm
 from main.models import Blog, Experience, Project
 
 from markdown import markdown
@@ -73,6 +73,17 @@ def create_project(request: HttpRequest):
         ProjectForm,
         "Proyek",
         "main:show_project",
+        "main:create_project",
+    )
+
+
+def create_blog(request: HttpRequest):
+    return create_model_object(
+        request,
+        BlogForm,
+        "Blog",
+        "main:show_blog",
+        "main:create_blog"
     )
 
 
@@ -81,6 +92,7 @@ def create_model_object(
     form_model: type[ModelForm],  # I love higher order types
     form_name: str,
     form_redirect: str,
+    form_create: str,
 ):
     form = form_model(request.POST or None)
 
@@ -94,6 +106,7 @@ def create_model_object(
         'form': form,
         'form_name': form_name,
         'form_redirect': form_redirect,
+        'form_create': form_create,
     }
 
     return render(request, "model_form.html", context)

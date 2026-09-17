@@ -1,6 +1,6 @@
 from django.forms import DateInput, ModelForm, TextInput, Textarea, URLInput
 
-from main.models import Project
+from main.models import Blog, Project
 
 
 class ProjectForm(ModelForm):
@@ -49,4 +49,36 @@ class ProjectForm(ModelForm):
             ),
             'started_at': DateInput(),
             'ended_at': DateInput(),
+        }
+
+
+class BlogForm(ModelForm):
+    class Meta:
+        model = Blog
+        fields = [
+            'title',
+            'text',
+            'created_at',
+        ]
+
+        labels = {
+            'title': 'Judul blog',
+            'text': 'Isi blog (markdown)',
+            'created_at': 'Tanggal blog dibuat',
+        }
+
+        widgets = {
+            'title': TextInput(
+                attrs={
+                    'placeholder': 'Pemikiran Saya',
+                    'maxlength': 255,
+                }
+            ),
+            'text': Textarea(
+                attrs={
+                    'placeholder': 'Pada suatu hari...',
+                    'rows': 3,
+                }
+            ),
+            'created_at': DateInput(),
         }
