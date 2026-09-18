@@ -14,10 +14,10 @@
                 <div class="form-group">
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     {{ field }}
-                    {% for error in field.errors %}
-                    <p class="form-error">{{ error }}</p>
-                    {% endfor %}
                 </div>
+                {% for error in field.errors %}
+                <p class="form-error form-group">{{ error }}</p>
+                {% endfor %}
                 {% endfor %}
                 <div class="form-footer">
                     <button type="submit">Tambah {{ form_name }}</button>
