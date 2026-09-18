@@ -10,6 +10,8 @@ from main.models import Blog, Experience, Project
 
 from markdown import markdown
 
+from os import getenv
+
 
 def show_main(request):
     context = {
@@ -36,14 +38,6 @@ def show_experience(request):
     }
     return render(request, "experience.html", context)
 
-
-# def show_project(request):
-#     context = {
-#         "project_list": Project.objects.all(),
-#     }
-#
-#     return render(request, "project.html", context)
-#
 
 def show_blog(request: HttpRequest):
     context = {
@@ -97,6 +91,12 @@ def create_model_object(
     form = form_model(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
+        # form_model needs to have the shape of main.forms.ProtectedForm, Hacky
+        # Refer to main.forms.ProtectedForm. TODO: swap with proper auth
+        if form.data['password'] != getenv('FORM_PASSWORD'):
+            messages.error(request, "Password salah")
+            return redirect(form_create)
+
         form.save()
         messages.success(request, form_name + " baru berhasil ditambahkan!")
         return redirect(form_redirect)
@@ -134,7 +134,6 @@ def show_project(request):
     title_query = request.GET.get("title", "").strip()
 
     context = {
-        "name": "Burhan",
         "project_list": projects,
         "title_query": title_query,
     }
