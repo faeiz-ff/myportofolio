@@ -33,7 +33,7 @@
                         {% if project.has_other_link %}
                         <a class="link-button" href="{{ project.other_link }}">Website</a>
                         {% endif %}
-                        {% include 'components/project_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:delete_project' %}
+                        {% include 'components/model_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:delete_project' %}
                         <a class="link-button" href="{% url 'main:update_project' project.id %}">Edit</a>
                     </nav>
                     <!-- TODO: DO CONSIDER THE SAFETY OF THIS: MAY CONTAINS UNSAFE HTML -->
