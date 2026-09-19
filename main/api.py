@@ -26,14 +26,19 @@ def create_or_update_model_object(
 ):
     form = form_model(request.POST or None, instance=form_instance)
 
+    instance_id = str(form_instance.id
+                      if form_instance is not None else "")
+
     if request.method == 'POST' and form.is_valid():
         # form_model needs to have the shape of main.forms.ProtectedForm, Hacky
         # Refer to main.forms.ProtectedForm. TODO: swap with proper auth
         if not password_correct(form.data['password']):
             messages.error(request, "Password salah, data tidak ditambahkan")
-            return redirect(view_name)
+            if form_instance is None:
+                return redirect(view_name)
+            else:
+                return redirect(view_name, instance_id)
 
-        print(form.cleaned_data)
         form.save()
         messages.success(request,
                          "data " + model_name + " baru berhasil ditambahkan!")
@@ -45,8 +50,7 @@ def create_or_update_model_object(
         'model_name': model_name,
         'exit_redirect': exit_redirect,
         'view_name': view_name,
-        'form_instance': str(form_instance.id
-                             if form_instance is not None else ""),
+        'form_instance': instance_id,
     }
 
     return render(request, "model_form.html", context)
