@@ -1,16 +1,13 @@
-from django.contrib import messages
 from django.core import serializers
-from django.forms import ModelForm
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import render
 from django.utils.safestring import mark_safe
 
+from main.api import create_model_object, delete_model_object
 from main.forms import BlogForm, ProjectForm
 from main.models import Blog, Experience, Project
 
 from markdown import markdown
-
-from os import getenv
 
 
 def show_main(request):
@@ -81,37 +78,6 @@ def create_blog(request: HttpRequest):
     )
 
 
-def create_model_object(
-    request: HttpRequest,
-    form_model: type[ModelForm],  # I love higher order types
-    form_name: str,
-    form_redirect: str,
-    form_create: str,
-):
-    form = form_model(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        # form_model needs to have the shape of main.forms.ProtectedForm, Hacky
-        # Refer to main.forms.ProtectedForm. TODO: swap with proper auth
-        if form.data['password'] != getenv('FORM_PASSWORD'):
-            messages.error(request, "Password salah")
-            return redirect(form_create)
-
-        form.save()
-        messages.success(request, form_name + " baru berhasil ditambahkan!")
-        return redirect(form_redirect)
-
-    context = {
-        'name': 'Faeiz Faiza Fasha',
-        'form': form,
-        'form_name': form_name,
-        'form_redirect': form_redirect,
-        'form_create': form_create,
-    }
-
-    return render(request, "model_form.html", context)
-
-
 def get_projects_json(request):
     title_query = request.GET.get("title", "").strip()
     projects = Project.objects.all()
@@ -140,12 +106,11 @@ def show_project(request):
     return render(request, "project.html", context)
 
 
-def delete_project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
-
-    if request.method == "POST":
-        project.delete()
-        messages.success(request, "Project berhasil dihapus!")
-        return redirect("main:show_project")
-
-    return redirect("main:show_project")
+def delete_project(request: HttpRequest, project_id):
+    return delete_model_object(
+        request,
+        project_id,
+        Project,
+        "Proyek",
+        "main:show_project",
+    )
