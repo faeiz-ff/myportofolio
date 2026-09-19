@@ -1,9 +1,9 @@
 from django.core import serializers
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils.safestring import mark_safe
 
-from main.api import create_model_object, delete_model_object
+from main.api import create_or_update_model_object, delete_model_object
 from main.forms import BlogForm, ProjectForm
 from main.models import Blog, Experience, Project
 
@@ -59,7 +59,7 @@ def show_blog_post(request: HttpRequest, title: str):
 
 
 def create_project(request: HttpRequest):
-    return create_model_object(
+    return create_or_update_model_object(
         request,
         ProjectForm,
         "Proyek",
@@ -68,8 +68,30 @@ def create_project(request: HttpRequest):
     )
 
 
+def update_project(request: HttpRequest, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    return create_or_update_model_object(
+        request,
+        ProjectForm,
+        "Proyek",
+        "main:show_project",
+        "main:update_project",
+        project,
+    )
+
+
+def delete_project(request: HttpRequest, project_id):
+    return delete_model_object(
+        request,
+        project_id,
+        Project,
+        "Proyek",
+        "main:show_project",
+    )
+
+
 def create_blog(request: HttpRequest):
-    return create_model_object(
+    return create_or_update_model_object(
         request,
         BlogForm,
         "Blog",
@@ -104,13 +126,3 @@ def show_project(request):
         "title_query": title_query,
     }
     return render(request, "project.html", context)
-
-
-def delete_project(request: HttpRequest, project_id):
-    return delete_model_object(
-        request,
-        project_id,
-        Project,
-        "Proyek",
-        "main:show_project",
-    )

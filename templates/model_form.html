@@ -1,14 +1,30 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Add {{ form_name }} - {{ name }}</title>
+{% if form_instance %}
+    <title>Ubah {{ model_name }} - {{ name }}</title>
+{% else %}
+    <title>Tambah {{ model_name }} - {{ name }}</title>
+{% endif %}
 {% endblock meta %}
 
 {% block content %}
     <section class="main-section">
         <div class="container">
-            <h1>Tambah {{ form_name }} Baru</h1>
-            <form method="post" action="{% url form_create %}" class="model-form">
+            {% if form_instance %}
+            <h1>Ubah {{ model_name }} '{{ form.title.value }}' </h1>
+            {% else %}
+            <h1>Tambah {{ model_name }} Baru</h1>
+            {% endif %}
+            <form 
+                method="post" 
+                action=
+                    {% if form_instance %} 
+                        "{% url view_name form_instance %}"
+                    {% else %}
+                        "{% url view_name %}"
+                    {% endif %}
+                class="model-form">
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="form-group">
@@ -20,8 +36,12 @@
                 {% endfor %}
                 {% endfor %}
                 <div class="form-footer">
-                    <button type="submit">Tambah {{ form_name }}</button>
-                    <a href="{% url form_redirect %}" class="link-button">Batal</a>
+                    {% if form_instance %} 
+                        <button type="submit">Ubah {{ model_name }}</button>
+                    {% else %}
+                        <button type="submit">Tambah {{ model_name }}</button>
+                    {% endif %}
+                    <a href="{% url exit_redirect %}" class="link-button">Batal</a>
                 </div>
             </form>
         </div>
