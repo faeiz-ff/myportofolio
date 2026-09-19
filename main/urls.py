@@ -10,6 +10,7 @@ from main.views import (
     show_project,
     show_blog,
     create_project,
+    update_project,
 )
 
 app_name = "main"
@@ -19,6 +20,8 @@ urlpatterns = [
     path("pengalaman/", show_experience, name="show_experience"),
 
     path("proyek/tambah/", create_project, name="create_project"),
+    path("proyek/<uuid:project_id>/ubah/",
+         update_project, name="update_project"),
     path("proyek/", show_project, name="show_project"),
 
     path("blog/tambah/", create_blog, name="create_blog"),

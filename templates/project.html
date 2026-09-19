@@ -34,6 +34,7 @@
                         <a class="link-button" href="{{ project.other_link }}">Website</a>
                         {% endif %}
                         {% include 'components/project_delete_modal.html' with project=project %}
+                        <a class="link-button" href="{% url 'main:update_project' project.id %}">Edit</a>
                     </nav>
                     <!-- TODO: DO CONSIDER THE SAFETY OF THIS: MAY CONTAINS UNSAFE HTML -->
                     <!-- for now, the data is manually inputted, so it is safe -->
