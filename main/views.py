@@ -5,7 +5,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
 
-from main.api import create_or_update_model_object, delete_model_object
+from main.instance_views import create_or_update_instance, delete_instance
 from main.models import Blog, Experience, Project
 
 from markdown import markdown
@@ -61,19 +61,19 @@ def show_blog_post(request: HttpRequest, title: str):
 
 def delete_view(model_name: str):
     def inner(request: HttpRequest, instance_id: uuid4):
-        return delete_model_object(request, model_name, instance_id)
+        return delete_instance(request, model_name, instance_id)
     return inner
 
 
 def create_view(model_name: str):
     def inner(request: HttpRequest):
-        return create_or_update_model_object(request, model_name)
+        return create_or_update_instance(request, model_name)
     return inner
 
 
 def update_view(model_name: str):
     def inner(request: HttpRequest, instance_id: uuid4):
-        return create_or_update_model_object(request, model_name, instance_id)
+        return create_or_update_instance(request, model_name, instance_id)
     return inner
 
 

@@ -51,7 +51,7 @@ def password_correct(password: str | None) -> bool:
     return password == getenv('FORM_PASSWORD')
 
 
-def create_or_update_model_object(
+def create_or_update_instance(
     request: HttpRequest,
     model_name: str,
     instance_id: uuid4 | None = None,
@@ -92,7 +92,7 @@ def create_or_update_model_object(
     return render(request, "model_form.html", context)
 
 
-def delete_model_object(
+def delete_instance(
         request: HttpRequest,
         model_name: str,
         object_id: uuid4,
@@ -103,14 +103,14 @@ def delete_model_object(
         # TODO: swap with proper auth
         password = request.POST.get("password")
 
-        model_object = get_object_or_404(model_info.model, pk=object_id)
+        instance = get_object_or_404(model_info.model, pk=object_id)
 
         if not password_correct(password):
             messages.error(request,
                            "Password salah, " + model_name + " tidak dihapus")
             return redirect(model_info.view_read)
 
-        model_object.delete()
+        instance.delete()
         messages.success(request, model_name + " berhasil dihapus!")
         return redirect(model_info.view_read)
 
