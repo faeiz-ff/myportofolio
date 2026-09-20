@@ -7,18 +7,9 @@
 {% block content %}
     <div class="main-content">
         <h1>Proyek</h1>
-        <form method="get"
-              action="{% url 'main:project:show' %}"
-              class="project-search form-group">
-            <input type="search"
-                   name="title"
-                   value="{{ title_query }}"
-                   placeholder="Cari berdasarkan nama proyek"
-                   aria-label="Cari berdasarkan nama proyek"/>
-            <button type="submit" class="button">Cari</button>
-        </form>
-        {% for project in project_list %}
-            <section class="project-item">
+        <ul>
+        {% for project in instance_list %}
+            <li>
                 <article>
                     <h2>{{ project.title }}</h2>
                     <p>[
@@ -28,19 +19,17 @@
                         {% endif %}
                         ]
                     </p>
-                    <nav class='project-actions'>
+                    <nav class='actions'>
                         <a class="link-button" href="{{ project.git_link }}">GitHub</a>
                         {% if project.has_other_link %}
                         <a class="link-button" href="{{ project.other_link }}">Website</a>
                         {% endif %}
-                        {% include 'components/model_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:project:delete' %}
-                        <a class="link-button" href="{% url 'main:project:update' project.id %}">Edit</a>
                     </nav>
                     <!-- TODO: DO CONSIDER THE SAFETY OF THIS: MAY CONTAINS UNSAFE HTML -->
                     <!-- for now, the data is manually inputted, so it is safe -->
                     {{ project.description | safe }} 
                 </article>
-            </section>
+            </li>
         {% empty %}
             {% if title_query %}
                 <p class="empty-state">Tidak ada proyek dengan nama tersebut.</p>
@@ -48,6 +37,7 @@
                 <p>Nantikan proyek terbaru saya yang sangat ambisius dan menarik bagi para investor.</p>
             {% endif %}
         {% endfor %}
+        </ul>
     </div>
 {% endblock %}
 

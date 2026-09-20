@@ -94,8 +94,12 @@ article>* {
 
 ul {
     padding-left: 1rem;
-    list-style-type: square;
+    list-style-type: disc;
     color: var(--main-accent);
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 2svh;
 }
 
 ol {
@@ -103,9 +107,17 @@ ol {
     color: var(--main-accent);
 }
 
-li::marker {
-    color: var(--main-accent);
-    font-size: 1rem;
+li {
+    &::marker {
+        color: var(--main-accent);
+        font-size: 1rem;
+    }
+}
+
+.list-item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1svh;
 }
 
 button,
@@ -138,6 +150,21 @@ input, textarea {
     &::placeholder {
         color: var(--main-neutral);
     }
+
+    &:focus,
+    &:hover {
+        outline-color: var(--main-accent);
+    }
+}
+
+select {
+    border-style: hidden;
+    border-radius: 5px;
+    font: inherit;
+    padding: 0.5rem;
+    background-color: var(--main-bg);
+    outline: 1px solid var(--main-text);
+    color: var(--main-text);
 
     &:focus,
     &:hover {
@@ -349,18 +376,7 @@ input, textarea {
     }
 }
 
-.project-list {
-    display: flex;
-    flex-direction: column;
-    row-gap: 2svh;
-}
-
-.project-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.project-search {
+.model-search {
     display: flex;
     flex-direction: row;
     column-gap: 2svw;
@@ -373,12 +389,11 @@ input, textarea {
     }
 }
 
-.project-actions {
+.actions {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     column-gap: 20px;
-    margin-top: 1rem;
+    margin: 1rem 0;
 }
 
 .model-form {
@@ -515,3 +530,20 @@ input, textarea {
     }
 }
 
+.admin-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 5px;
+    border-style: hidden;
+    outline: 1px solid var(--main-text);
+
+    &>div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        column-gap: 1svw;
+    }
+}

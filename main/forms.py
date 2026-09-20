@@ -6,8 +6,9 @@ from django.forms import (
     Textarea,
     URLInput,
 )
+from django.forms.widgets import Select
 
-from main.models import Blog, Project
+from main.models import Blog, Experience, Project
 
 
 # Decorates ModelForm class with an additional password field on it
@@ -79,6 +80,45 @@ class ProjectForm(ModelForm):
                     'rows': 3,
                 }
             ),
+            'started_at': DatePicker(),
+            'ended_at': DatePicker(),
+        }
+
+
+@ProtectedForm
+class ExperienceForm(ModelForm):
+    class Meta:
+        model = Experience
+        fields = [
+            'title',
+            'description',
+            'category',
+            'started_at',
+            'ended_at',
+        ]
+
+        labels = {
+            'title': 'Nama pengalaman',
+            'description': 'Deskripsi pengalaman',
+            'category': 'kategori pengalaman',
+            'started_at': 'Tanggal pengalaman dimulai',
+            'ended_at': 'Tanggal pengalaman diselesaikan',
+        }
+
+        widgets = {
+            'title': TextInput(
+                attrs={
+                    'placeholder': 'Nama pengalaman',
+                    'maxlength': 255,
+                }
+            ),
+            'description': Textarea(
+                attrs={
+                    'placeholder': 'Deskripsi pengalaman',
+                    'rows': 3,
+                }
+            ),
+            'category': Select(),
             'started_at': DatePicker(),
             'ended_at': DatePicker(),
         }

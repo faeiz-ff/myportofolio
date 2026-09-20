@@ -11,6 +11,7 @@ from main.views import (
     show_project,
     show_blog,
     show_blog_post,
+    show_root,
 )
 
 from main.models import Experience, Project, Blog
@@ -25,6 +26,16 @@ project = (
         path("<uuid:instance_id>/hapus/", delete_view('project'), name="delete"),
     ],
     "project"
+)
+
+experience = (
+    [
+        path("", show_experience, name="show"),
+        path("tambah/", create_view('experience'), name="create"),
+        path("<uuid:instance_id>/ubah/", update_view('experience'), name="update"),
+        path("<uuid:instance_id>/hapus/", delete_view('experience'), name="delete"),
+    ],
+    "experience"
 )
 
 
@@ -51,7 +62,8 @@ api = (
 
 urlpatterns = [
     path("", show_main, name="show_main"),
-    path("pengalaman/", show_experience, name="show_experience"),
+    path("root/", show_root, name="root"),
+    path("pengalaman/", include(experience)),
     path("proyek/", include(project)),
     path("blog/", include(blog)),
     path("api/", include(api))
