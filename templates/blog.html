@@ -7,13 +7,21 @@
 {% block content %}
 <div class="main-content">
     <h1>Blog Personal</h1>
+    <form method="get"
+          action="{% url 'main:blog:show' %}"
+          class="project-search form-group">
+        <input type="search"
+               name="title"
+               value="{{ title_query }}"
+               placeholder="Cari berdasarkan nama blog"
+               aria-label="Cari berdasarkan nama blog"/>
+        <button type="submit" class="button">Cari</button>
+    </form>
     <ul>
-        {% for blog in blog_list %}
+        {% for blog in instance_list %}
         <li>
-            <span>
-                [{{ blog.created_at_str }}]
-                <a href="{% url 'main:blog:show_post' title=blog.title %}">{{ blog.title }}</a>
-            </span>
+            [{{ blog.created_at_str }}]
+            <a href="{% url 'main:blog:show_post' title=blog.title %}">{{ blog.title }}</a>
         </li>
         {% empty %}
         <li>Belum ada blog post.</li>

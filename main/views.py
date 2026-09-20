@@ -51,15 +51,15 @@ def show_instances(request: HttpRequest, model: type[Model], template: str):
     return render(request, template, context)
 
 
-def show_project(request: HttpRequest):
-    return show_instances(request, Project, "project.html")
-
-
 def show_blog(request: HttpRequest):
+    return show_instances(request, Blog, "blog.html")
+
+
+def show_project(request: HttpRequest):
     context = {
-        "blog_list": Blog.objects.all(),
+        "instances_list": Project.objects.all(),
     }
-    return render(request, "blog.html", context)
+    return render(request, "project.html", context)
 
 
 def show_experience(request):
