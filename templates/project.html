@@ -7,17 +7,7 @@
 {% block content %}
     <div class="main-content">
         <h1>Proyek</h1>
-        <form method="get"
-              action="{% url 'main:project:show' %}"
-              class="project-search form-group">
-            <input type="search"
-                   name="title"
-                   value="{{ title_query }}"
-                   placeholder="Cari berdasarkan nama proyek"
-                   aria-label="Cari berdasarkan nama proyek"/>
-            <button type="submit" class="button">Cari</button>
-        </form>
-        {% for project in project_list %}
+        {% for project in instance_list %}
             <section class="project-item">
                 <article>
                     <h2>{{ project.title }}</h2>
