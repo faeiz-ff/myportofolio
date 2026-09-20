@@ -6,16 +6,17 @@
 
 {% block content %}
 <div class="main-content">
+    <!-- TODO: Clean up this mess i have been coding for 24 hours straight -->
     <h1>Admin Root Page</h1>
-    ssh! Ini amat sangat rahasia
-    <h2>Proyek <a href="{% url 'main:project:create' %}">[+]</a></h2>
+    ssh! Halaman ini amat sangat rahasia
+    <h2>Proyek <a href="{% url 'main:project:create' %}" style="text-decoration:none;">[+]</a></h2>
     <ul>
         {% for project in projects %}
         <li class="admin-list-item">
             {{ project.title }}
             <div>
-                {% include 'components/model_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:project:delete' %}
                 <a class="link-button" href="{% url 'main:project:update' project.id %}">Edit</a>
+                {% include 'components/model_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:project:delete' %}
             </div>
         </li>
         {% empty %}
@@ -23,14 +24,29 @@
         {% endfor %}
     </ul>
 
-    <h2>Blog <a href="{% url 'main:blog:create' %}">[+]</a></h2>
+    <h2>Pengalaman <a href="{% url 'main:experience:create' %}" style="text-decoration:none;">[+]</a></h2>
+    <ul>
+        {% for experience in experiences %}
+        <li class="admin-list-item">
+            {{ experience.title }}
+            <div>
+                <a class="link-button" href="{% url 'main:experience:update' experience.id %}">Edit</a>
+                {% include 'components/model_delete_modal.html' with model=experience model_name="Experience" delete_model_view='main:experience:delete' %}
+            </div>
+        </li>
+        {% empty %}
+        <li>Belum ada pengalaman.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Blog <a href="{% url 'main:blog:create' %}" style="text-decoration:none;">[+]</a></h2>
     <ul>
         {% for blog in blogs %}
         <li class="admin-list-item">
             [{{ blog.created_at_str }}] {{ blog.title }}
             <div>
-                {% include 'components/model_delete_modal.html' with model=blog model_name="Blog" delete_model_view='main:blog:delete' %}
                 <a class="link-button" href="{% url 'main:blog:update' blog.id %}">Edit</a>
+                {% include 'components/model_delete_modal.html' with model=blog model_name="Blog" delete_model_view='main:blog:delete' %}
             </div>
         </li>
         {% empty %}

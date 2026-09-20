@@ -105,6 +105,7 @@ def update_view(model_name: str):
 def show_root(request: HttpRequest):
     context = {
         'projects': Project.objects.all(),
+        'experiences': Experience.objects.all(),
         'blogs': Blog.objects.all(),
     }
 

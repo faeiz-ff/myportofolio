@@ -9,8 +9,8 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.forms import ModelForm
 
-from main.forms import ProjectForm, BlogForm
-from main.models import Project, Blog
+from main.forms import ExperienceForm, ProjectForm, BlogForm
+from main.models import Experience, Project, Blog
 
 
 @dataclass
@@ -31,6 +31,15 @@ MODEL_VIEW_INFO = {
         'main:project:show',
         'main:project:update',
         'main:project:delete',
+    ),
+
+    'experience': ModelViewInfo(
+        Experience,
+        ExperienceForm,
+        'main:experience:create',
+        'main:experience:show',
+        'main:experience:update',
+        'main:experience:delete',
     ),
 
     'blog': ModelViewInfo(

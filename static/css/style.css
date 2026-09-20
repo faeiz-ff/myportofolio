@@ -157,6 +157,21 @@ input, textarea {
     }
 }
 
+select {
+    border-style: hidden;
+    border-radius: 5px;
+    font: inherit;
+    padding: 0.5rem;
+    background-color: var(--main-bg);
+    outline: 1px solid var(--main-text);
+    color: var(--main-text);
+
+    &:focus,
+    &:hover {
+        outline-color: var(--main-accent);
+    }
+}
+
 
 .main-header {
     width: 100%;
@@ -519,11 +534,16 @@ input, textarea {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 5px;
+    border-style: hidden;
+    outline: 1px solid var(--main-text);
 
     &>div {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
-        column-gap: 2svw;
+        column-gap: 1svw;
     }
 }
