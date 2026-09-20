@@ -1,18 +1,19 @@
 from django.urls import include, path
 
+from main.api import get_instances_json_view
+
 from main.views import (
     create_view,
     update_view,
     delete_view,
-
-    get_projects_json,
-
     show_main,
     show_experience,
     show_project,
     show_blog,
     show_blog_post,
 )
+
+from main.models import Experience, Project, Blog
 
 app_name = "main"
 
@@ -41,7 +42,9 @@ blog = (
 
 api = (
     [
-        path("proyek/", get_projects_json, name="get_projects_json"),
+        path("proyek/", get_instances_json_view(Project), name="get_projects_json"),
+        path("blog/", get_instances_json_view(Blog), name="get_blogs_json"),
+        path("pengalaman/", get_instances_json_view(Experience), name="get_experiences_json"),
     ],
     "api"
 )

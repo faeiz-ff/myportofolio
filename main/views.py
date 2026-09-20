@@ -1,10 +1,12 @@
 from uuid import uuid4
 
 from django.core import serializers
-from django.http import HttpRequest, HttpResponse
+from django.db.models import Model
+from django.http import HttpRequest
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
 
+from main.api import get_instances_json
 from main.instance_views import create_or_update_instance, delete_instance
 from main.models import Blog, Experience, Project
 
@@ -30,11 +32,27 @@ def show_main(request):
     return render(request, "about.html", context)
 
 
-def show_experience(request):
+def show_instances(request: HttpRequest, model: type[Model], template: str):
+    json_response = get_instances_json(request, model)
+
+    instances = serializers.deserialize(
+        "json",
+        json_response.content.decode("utf-8"),
+    )
+
+    instances = [instance.object for instance in instances]
+    title_query = request.GET.get("title", "").strip()
+
     context = {
-        "experience_list": Experience.objects.all(),
+        "instance_list": instances,
+        "title_query": title_query,
     }
-    return render(request, "experience.html", context)
+
+    return render(request, template, context)
+
+
+def show_project(request: HttpRequest):
+    return show_instances(request, Project, "project.html")
 
 
 def show_blog(request: HttpRequest):
@@ -42,6 +60,13 @@ def show_blog(request: HttpRequest):
         "blog_list": Blog.objects.all(),
     }
     return render(request, "blog.html", context)
+
+
+def show_experience(request):
+    context = {
+        "experience_list": Experience.objects.all(),
+    }
+    return render(request, "experience.html", context)
 
 
 def show_blog_post(request: HttpRequest, title: str):
@@ -75,31 +100,3 @@ def update_view(model_name: str):
     def inner(request: HttpRequest, instance_id: uuid4):
         return create_or_update_instance(request, model_name, instance_id)
     return inner
-
-
-def get_projects_json(request):
-    title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.all()
-
-    if title_query:
-        projects = projects.filter(title__icontains=title_query)
-
-    projects_json = serializers.serialize('json', projects)
-    return HttpResponse(projects_json, content_type="application/json")
-
-
-def show_project(request):
-    json_response = get_projects_json(request)
-
-    projects = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    projects = [project.object for project in projects]
-    title_query = request.GET.get("title", "").strip()
-
-    context = {
-        "project_list": projects,
-        "title_query": title_query,
-    }
-    return render(request, "project.html", context)
