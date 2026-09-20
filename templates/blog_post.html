@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Faeiz Faiza Fasha - {{ title }}</title>
+<title>Faeiz Faiza Fasha - Blog - {{ title }}</title>
 {% endblock%}
 
 {% block content %}
@@ -11,5 +11,9 @@
         <p>[{{ created_at }}]</p>
         {{ html }}
     </article>
+    <div class="project-actions">
+        {% include 'components/model_delete_modal.html' with model=blog model_name="Blog" delete_model_view='main:blog:delete' %}
+        <a class="link-button" href="{% url 'main:blog:update' blog.id %}">Edit</a>
+    </div>
 </div>
 {% endblock %}
