@@ -30,6 +30,10 @@ def ProtectedForm(cls):
     return InnerForm
 
 
+class DatePicker(DateInput):
+    input_type = 'date'
+
+
 @ProtectedForm
 class ProjectForm(ModelForm):
     class Meta:
@@ -75,8 +79,8 @@ class ProjectForm(ModelForm):
                     'rows': 3,
                 }
             ),
-            'started_at': DateInput(),
-            'ended_at': DateInput(),
+            'started_at': DatePicker(),
+            'ended_at': DatePicker(),
         }
 
 
@@ -109,5 +113,5 @@ class BlogForm(ModelForm):
                     'rows': 3,
                 }
             ),
-            'created_at': DateInput(),
+            'created_at': DatePicker(),
         }
