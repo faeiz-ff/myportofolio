@@ -1,6 +1,6 @@
 
 from os import getenv
-from uuid import uuid4
+from uuid import UUID
 from dataclasses import dataclass
 
 from django.contrib import messages
@@ -63,7 +63,7 @@ def password_correct(password: str | None) -> bool:
 def create_or_update_instance(
     request: HttpRequest,
     model_name: str,
-    instance_id: uuid4 | None = None,
+    instance_id: UUID | None = None,
 ):
     model_info = MODEL_VIEW_INFO[model_name]
 
@@ -104,7 +104,7 @@ def create_or_update_instance(
 def delete_instance(
         request: HttpRequest,
         model_name: str,
-        object_id: uuid4,
+        object_id: UUID,
 ):
     model_info = MODEL_VIEW_INFO[model_name]
 

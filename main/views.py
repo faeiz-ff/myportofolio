@@ -1,4 +1,4 @@
-from uuid import uuid4
+from uuid import UUID
 
 from django.core import serializers
 from django.db.models import Model
@@ -85,7 +85,7 @@ def show_blog_post(request: HttpRequest, title: str):
 
 
 def delete_view(model_name: str):
-    def inner(request: HttpRequest, instance_id: uuid4):
+    def inner(request: HttpRequest, instance_id: UUID):
         return delete_instance(request, model_name, instance_id)
     return inner
 
@@ -97,7 +97,7 @@ def create_view(model_name: str):
 
 
 def update_view(model_name: str):
-    def inner(request: HttpRequest, instance_id: uuid4):
+    def inner(request: HttpRequest, instance_id: UUID):
         return create_or_update_instance(request, model_name, instance_id)
     return inner
 
