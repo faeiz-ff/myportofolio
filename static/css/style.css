@@ -373,6 +373,14 @@ input, textarea {
     }
 }
 
+.project-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 20px;
+    margin-top: 1rem;
+}
+
 .model-form {
     margin-top: 1svh;
     width: 100%;
@@ -422,25 +430,11 @@ input, textarea {
     justify-content: space-between;
 }
 
-.project-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    column-gap: 20px;
-    margin-top: 1rem;
-}
-
-.project-card-actions {
-    display: flex;
-    flex-direction: column;
-    margin-top: auto;
-}
-
 .hide {
     display: none !important;
 }
 
-.project-delete-modal {
+.model-delete-modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -463,11 +457,11 @@ input, textarea {
     }
 }
 
-.project-delete-modal:popover-open {
+.model-delete-modal:popover-open {
     display: flex;
 }
 
-.project-delete-modal__backdrop {
+.model-delete-modal__backdrop {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -482,7 +476,7 @@ input, textarea {
     cursor: default;
 }
 
-.project-delete-modal__content {
+.model-delete-modal__content {
     position: relative;
     z-index: 1;
     width: min(100%, 480px);
@@ -492,11 +486,11 @@ input, textarea {
     background-color: var(--main-bg);
 }
 
-.project-delete-modal__content h2 {
+.model-delete-modal__content h2 {
     margin-bottom: 1rem;
 }
 
-.project-delete-modal__close {
+.model-delete-modal__close {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -509,7 +503,7 @@ input, textarea {
     cursor: pointer;
 }
 
-.project-delete-modal__actions {
+.model-delete-modal__actions {
     display: flex;
     justify-content: flex-end;
     gap: 0.75rem;

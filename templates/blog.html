@@ -12,7 +12,7 @@
         <li>
             <span>
                 [{{ blog.created_at_str }}]
-                <a href="{% url 'main:show_blog_post' title=blog.title %}">{{ blog.title }}</a>
+                <a href="{% url 'main:blog:show_post' title=blog.title %}">{{ blog.title }}</a>
             </span>
         </li>
         {% empty %}

@@ -8,7 +8,7 @@
     <div class="main-content">
         <h1>Proyek</h1>
         <form method="get"
-              action="{% url 'main:show_project' %}"
+              action="{% url 'main:project:show' %}"
               class="project-search form-group">
             <input type="search"
                    name="title"
@@ -33,8 +33,8 @@
                         {% if project.has_other_link %}
                         <a class="link-button" href="{{ project.other_link }}">Website</a>
                         {% endif %}
-                        {% include 'components/project_delete_modal.html' with project=project %}
-                        <a class="link-button" href="{% url 'main:update_project' project.id %}">Edit</a>
+                        {% include 'components/model_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:project:delete' %}
+                        <a class="link-button" href="{% url 'main:project:update' project.id %}">Edit</a>
                     </nav>
                     <!-- TODO: DO CONSIDER THE SAFETY OF THIS: MAY CONTAINS UNSAFE HTML -->
                     <!-- for now, the data is manually inputted, so it is safe -->

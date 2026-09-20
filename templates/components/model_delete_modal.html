@@ -1,0 +1,39 @@
+<p>
+    <button type="button"
+            popovertarget="delete-model-{{ model.id }}"
+            aria-label="Hapus {{ model.title }}"
+            title="Hapus proyek">
+        Hapus {{ model_name }}
+    </button>
+</p>
+<div id="delete-model-{{ model.id }}"
+     class="model-delete-modal"
+     popover="auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="delete-model-title-{{ model.id }}">
+    <button type="button"
+            class="model-delete-modal__backdrop"
+            popovertarget="delete-model-{{ model.id }}"
+            popovertargetaction="hide"
+            aria-label="Tutup konfirmasi hapus"></button>
+    <div class="model-delete-modal__content">
+        <button type="button"
+                class="model-delete-modal__close"
+                popovertarget="delete-model-{{ model.id }}"
+                popovertargetaction="hide"
+                aria-label="Tutup konfirmasi hapus"> × </button>
+        <h2 id="delete-model-title-{{ model.id }}">Hapus {{ model_name }}?</h2>
+        <p>
+            Apakah Anda yakin ingin menghapus
+            <strong>{{ model.title }}</strong>?
+        </p>
+        <div class="model-delete-modal__actions">
+            <form method="post" action="{% url delete_model_view model.id %}">
+                {% csrf_token %}
+                <label>Password<input type="text" name="password"/></label>
+                <button type="submit" class="button button-danger">Ya, Hapus</button>
+            </form>
+        </div>
+    </div>
+</div>
