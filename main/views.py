@@ -57,7 +57,7 @@ def show_blog(request: HttpRequest):
 
 def show_project(request: HttpRequest):
     context = {
-        "instances_list": Project.objects.all(),
+        "instance_list": Project.objects.all(),
     }
     return render(request, "project.html", context)
 
