@@ -515,3 +515,15 @@ input, textarea {
     }
 }
 
+.admin-list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &>div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        column-gap: 2svw;
+    }
+}

@@ -24,8 +24,6 @@
                         {% if project.has_other_link %}
                         <a class="link-button" href="{{ project.other_link }}">Website</a>
                         {% endif %}
-                        {% include 'components/model_delete_modal.html' with model=project model_name="Proyek" delete_model_view='main:project:delete' %}
-                        <a class="link-button" href="{% url 'main:project:update' project.id %}">Edit</a>
                     </nav>
                     <!-- TODO: DO CONSIDER THE SAFETY OF THIS: MAY CONTAINS UNSAFE HTML -->
                     <!-- for now, the data is manually inputted, so it is safe -->

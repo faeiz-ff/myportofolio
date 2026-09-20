@@ -100,3 +100,12 @@ def update_view(model_name: str):
     def inner(request: HttpRequest, instance_id: uuid4):
         return create_or_update_instance(request, model_name, instance_id)
     return inner
+
+
+def show_root(request: HttpRequest):
+    context = {
+        'projects': Project.objects.all(),
+        'blogs': Blog.objects.all(),
+    }
+
+    return render(request, 'root.html', context)

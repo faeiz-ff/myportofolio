@@ -11,6 +11,7 @@ from main.views import (
     show_project,
     show_blog,
     show_blog_post,
+    show_root,
 )
 
 from main.models import Experience, Project, Blog
@@ -51,6 +52,7 @@ api = (
 
 urlpatterns = [
     path("", show_main, name="show_main"),
+    path("root/", show_root, name="root"),
     path("pengalaman/", show_experience, name="show_experience"),
     path("proyek/", include(project)),
     path("blog/", include(blog)),
