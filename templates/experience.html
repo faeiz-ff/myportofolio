@@ -5,14 +5,12 @@
 {% endblock%}
 
 {% block content %}
-<main>
-    <section class="main-content" id="experience">
-        <article>
-            <h1>Pengalaman</h1>
-            <ul>
-                {% for experience in experience_list %}
-                <li>
-                    <div class="project-item">
+    <div class="main-content" id="experience">
+        <h1>Pengalaman</h1>
+        <ul>
+            {% for experience in experience_list %}
+            <li>
+                <div class="list-item">
                     <h2>{{ experience.title }}</h2>
                     <p>
                         {{ experience.get_category_display }}.
@@ -24,16 +22,13 @@
                     <p>
                         {{ experience.description }}
                     </p>
-
-                    </div>
-                </li>
-                {% empty %}
-                <p>
-                    Belum ada pengalaman yang ditambahkan.
-                </p>
-                {% endfor %}
-            </ul>
-        </article>
-    </section>
-</main>
+                </div>
+            </li>
+            {% empty %}
+            <p>
+                Belum ada pengalaman yang ditambahkan.
+            </p>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
