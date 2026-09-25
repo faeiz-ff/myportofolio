@@ -15,5 +15,6 @@ def get_instances_json(request: HttpRequest, model: type[Model]):
     if title_query:
         instances = instances.filter(title__icontains=title_query)
 
-    instances_json = serializers.serialize('json', instances)
+    instances_json = serializers.serialize(
+        'json', instances, use_natural_foreign_keys=True)
     return HttpResponse(instances_json, content_type="application/json")

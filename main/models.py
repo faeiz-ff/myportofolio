@@ -1,6 +1,7 @@
 import uuid
 from datetime import date
 import django
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -51,6 +52,10 @@ class Project(models.Model):
     description = models.TextField()
     started_at = models.DateField(default=django.utils.timezone.now)
     ended_at = models.DateField(blank=True, null=True)
+
+    starred_by = models.ManyToManyField(
+        User, related_name="starred_projects", blank=True,
+    )
 
     @property
     def has_other_link(self) -> bool:

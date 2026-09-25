@@ -5,6 +5,7 @@
 {% endblock%}
 
 {% block content %}
+{% if user.is_superuser %}
 <div class="main-content">
     <!-- TODO: Clean up this mess i have been coding for 24 hours straight -->
     <h1>Admin Root Page</h1>
@@ -54,4 +55,7 @@
         {% endfor %}
     </ul>
 </div>
+{% else %}
+<p> Maaf anda bukan admint, shoo shoo!! </p>
+{% endif %}
 {% endblock %}

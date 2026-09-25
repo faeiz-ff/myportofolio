@@ -3,17 +3,26 @@ from uuid import UUID
 from django.core import serializers
 from django.db.models import Model
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.safestring import mark_safe
+
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from main.api import get_instances_json
 from main.instance_views import create_or_update_instance, delete_instance
 from main.models import Blog, Experience, Project
 
 from markdown import markdown
+import datetime
 
 
 def show_main(request):
+    last_login = request.COOKIES.get(
+        'last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
     context = {
         "name": "Faeiz Faiza Fasha",
         "npm": "2506602196",
@@ -28,6 +37,7 @@ def show_main(request):
             mengenali banyak bahasa lain.<br> Selamanya pelajar.
             """
         ),  # DO CONSIDER THE SAFETY OF THIS HTML
+        "last_login": last_login,
     }
     return render(request, "about.html", context)
 
@@ -85,21 +95,45 @@ def show_blog_post(request: HttpRequest, title: str):
 
 
 def delete_view(model_name: str):
+    @login_required(login_url="/login/")
     def inner(request: HttpRequest, instance_id: UUID):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+
         return delete_instance(request, model_name, instance_id)
     return inner
 
 
 def create_view(model_name: str):
+    @login_required(login_url="/login/")
     def inner(request: HttpRequest):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+
         return create_or_update_instance(request, model_name)
     return inner
 
 
 def update_view(model_name: str):
+    @login_required(login_url="/login/")
     def inner(request: HttpRequest, instance_id: UUID):
         return create_or_update_instance(request, model_name, instance_id)
     return inner
+
+
+@login_required(login_url="/login/")
+def toggle_star(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+
+    if request.method == "POST":
+        # Kalau akun ini sudah pernah memberi star, batalkan star-nya.
+        # Kalau belum, tambahkan star.
+        if request.user in project.starred_by.all():
+            project.starred_by.remove(request.user)
+        else:
+            project.starred_by.add(request.user)
+
+    return redirect("main:project:show")
 
 
 def show_root(request: HttpRequest):
@@ -110,3 +144,43 @@ def show_root(request: HttpRequest):
     }
 
     return render(request, 'root.html', context)
+
+
+def register(request: HttpRequest):
+    form = UserCreationForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Akun berhasil dibuat. Silakan login.")
+        return redirect("main:login")
+
+    context = {
+        "name": "Burhan",
+        "form": form,
+    }
+    return render(request, "register.html", context)
+
+
+def login_user(request):
+    form = AuthenticationForm(request, data=request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        response = redirect("main:show_main")
+        response.set_cookie(
+            'last_login', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        return response
+
+    context = {
+        "name": "Burhan",
+        "form": form,
+    }
+    return render(request, "login.html", context)
+
+
+def logout_user(request):
+    logout(request)
+    response = redirect("main:show_main")
+    response.delete_cookie('last_login')
+    return response
