@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Ubah {{ model_name }} - {{ name }}</title>
+{% endblock meta %}
+
+{% block content %}
+    <section class="main-content">
+        <div class="container">
+            <h1>Ubah {{ model_name }} '{{ form.title.value }}' </h1>
+            <form 
+                method="post" 
+                action= "{% url view_name form_instance %}"
+                class="model-form">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% for error in field.errors %}
+                <p class="form-error form-group">{{ error }}</p>
+                {% endfor %}
+                {% endfor %}
+                <div class="form-footer">
+                    <button type="submit">Ubah {{ model_name }}</button>
+                    <a href="{% url exit_redirect %}" class="link-button">Batal</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock content %}
