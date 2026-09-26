@@ -436,6 +436,13 @@ select {
     }
 }
 
+.form-help {
+    margin-top: 2svh;
+    border: 1px solid var(--main-neutral);
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
 .form-footer {
     width: 100%;
     max-width: 100%;
