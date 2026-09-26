@@ -95,7 +95,6 @@ def show_blog_post(request: HttpRequest, title: str):
 
 
 def delete_view(model_name: str):
-    @login_required(login_url="/login/")
     def inner(request: HttpRequest, instance_id: UUID):
         if not request.user.is_superuser:
             raise PermissionDenied
@@ -105,7 +104,6 @@ def delete_view(model_name: str):
 
 
 def create_view(model_name: str):
-    @login_required(login_url="/login/")
     def inner(request: HttpRequest):
         if not request.user.is_superuser:
             raise PermissionDenied
@@ -115,7 +113,6 @@ def create_view(model_name: str):
 
 
 def update_view(model_name: str):
-    @login_required(login_url="/login/")
     def inner(request: HttpRequest, instance_id: UUID):
         return create_or_update_instance(request, model_name, instance_id)
     return inner
@@ -155,7 +152,7 @@ def register(request: HttpRequest):
         return redirect("main:login")
 
     context = {
-        "name": "Burhan",
+        "name": "Faeiz Faiza Fasha",
         "form": form,
     }
     return render(request, "register.html", context)
@@ -173,7 +170,7 @@ def login_user(request):
         return response
 
     context = {
-        "name": "Burhan",
+        "name": "Faeiz Faiza Fasha",
         "form": form,
     }
     return render(request, "login.html", context)

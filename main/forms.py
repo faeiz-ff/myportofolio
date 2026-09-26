@@ -1,5 +1,4 @@
 from django.forms import (
-    CharField,
     DateInput,
     ModelForm,
     TextInput,
@@ -11,31 +10,10 @@ from django.forms.widgets import Select
 from main.models import Blog, Experience, Project
 
 
-# Decorates ModelForm class with an additional password field on it
-# Kinda hacky, but this is temporary anyway. TODO: swap with proper auth
-def ProtectedForm(cls):
-    class InnerForm(cls):
-        password = None
-
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['password'] = CharField()
-
-            passwordField = self.fields['password']
-            passwordField.required = True
-            passwordField.widget = TextInput()
-            passwordField.widget.label = 'Password'
-            passwordField.widget.attrs['placeholder'] = \
-                'Password untuk validasi pengiriman form'
-
-    return InnerForm
-
-
 class DatePicker(DateInput):
     input_type = 'date'
 
 
-@ProtectedForm
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
@@ -85,7 +63,6 @@ class ProjectForm(ModelForm):
         }
 
 
-@ProtectedForm
 class ExperienceForm(ModelForm):
     class Meta:
         model = Experience
@@ -124,7 +101,6 @@ class ExperienceForm(ModelForm):
         }
 
 
-@ProtectedForm
 class BlogForm(ModelForm):
     class Meta:
         model = Blog
