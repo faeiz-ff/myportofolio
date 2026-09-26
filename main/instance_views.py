@@ -8,7 +8,6 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.forms import ModelForm
 
-from main.admin import EDITOR_GROUP
 from main.forms import ExperienceForm, ProjectForm, BlogForm
 from main.models import Experience, Project, Blog
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -66,8 +65,7 @@ def create_instance(
 
     if request.method == 'POST' and form.is_valid():
         form.save()
-        messages.success(request,
-                         "data " + model_name + " baru berhasil ditambahkan!")
+        messages.success(request, model_name + " baru berhasil ditambahkan.")
         return redirect(model_info.view_read)
 
     context = {
@@ -94,8 +92,7 @@ def update_instance(
 
     if request.method == 'POST' and form.is_valid():
         form.save()
-        messages.success(request,
-                         "data " + model_name + " baru berhasil ditambahkan!")
+        messages.success(request, model_name + " berhasil diubah.")
         return redirect(model_info.view_read)
 
     context = {
@@ -122,7 +119,7 @@ def delete_instance(
     if request.method == "POST":
         instance = get_object_or_404(model_info.model, pk=object_id)
         instance.delete()
-        messages.success(request, model_name + " berhasil dihapus!")
+        messages.success(request, model_name + " berhasil dihapus.")
         return redirect(model_info.view_read)
 
     return redirect(model_info.view_read)
