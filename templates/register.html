@@ -3,7 +3,7 @@
     <title>Register - {{ name }}</title>
 {% endblock meta %}
 {% block content %}
-    <section class="main-section">
+    <section class="main-content">
         <h1>Buat Akun</h1>
         <form method="post" action="{% url 'main:register' %}" class="model-form">
             {% csrf_token %}

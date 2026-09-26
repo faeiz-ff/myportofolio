@@ -554,3 +554,45 @@ select {
         column-gap: 1svw;
     }
 }
+
+.messages-container {
+    position: fixed;
+    bottom: 5svh;
+    right: 2.5svw;
+
+    max-width: 100%;
+    min-width: 50%;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1svh;
+    
+    @media (max-width: 768px) {
+        min-width: 70%;
+    }
+
+    opacity: 0;
+    animation-name: fade-in-out;
+    animation-duration: 5s;
+    animation-timing-function: ease;
+}
+
+
+@keyframes fade-in-out {
+    0%, 10%, 90%, 100% {
+        opacity: 0;
+    }
+
+    11%, 89% {
+        opacity: 1;
+    }
+}
+    
+.message {
+    padding: 0.5rem;
+
+    background-color: var(--main-bg);
+    border: 1px solid var(--main-accent);
+    border-radius: 5px;
+
+}

@@ -31,7 +31,6 @@
         <div class="model-delete-modal__actions">
             <form method="post" action="{% url delete_model_view model.id %}">
                 {% csrf_token %}
-                <label>Password<input type="text" name="password"/></label>
                 <button type="submit" class="button button-danger">Ya, Hapus</button>
             </form>
         </div>
