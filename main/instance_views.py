@@ -1,5 +1,4 @@
 
-from os import getenv
 from uuid import UUID
 from dataclasses import dataclass
 
@@ -11,6 +10,7 @@ from django.forms import ModelForm
 
 from main.forms import ExperienceForm, ProjectForm, BlogForm
 from main.models import Experience, Project, Blog
+from django.contrib.auth.decorators import login_required
 
 
 @dataclass
@@ -53,13 +53,7 @@ MODEL_VIEW_INFO = {
 }
 
 
-def password_correct(password: str | None) -> bool:
-    if password is None:
-        return False
-
-    return password == getenv('FORM_PASSWORD')
-
-
+@login_required(login_url="/login/")
 def create_or_update_instance(
     request: HttpRequest,
     model_name: str,
@@ -73,14 +67,10 @@ def create_or_update_instance(
     form = model_info.form(request.POST or None, instance=instance)
 
     if request.method == 'POST' and form.is_valid():
-        # form_model needs to have the shape of main.forms.ProtectedForm, Hacky
-        # Refer to main.forms.ProtectedForm. TODO: swap with proper auth
-        if not password_correct(form.data['password']):
-            messages.error(request, "Password salah, data tidak ditambahkan")
-            if instance_id:
-                return redirect(model_info.view_update, instance_id)
-            else:
-                return redirect(model_info.view_create)
+        if instance_id:
+            return redirect(model_info.view_update, instance_id)
+        else:
+            return redirect(model_info.view_create)
 
         form.save()
         messages.success(request,
@@ -101,6 +91,7 @@ def create_or_update_instance(
     return render(request, "model_form.html", context)
 
 
+@login_required(login_url="/login/")
 def delete_instance(
         request: HttpRequest,
         model_name: str,
@@ -109,16 +100,7 @@ def delete_instance(
     model_info = MODEL_VIEW_INFO[model_name]
 
     if request.method == "POST":
-        # TODO: swap with proper auth
-        password = request.POST.get("password")
-
         instance = get_object_or_404(model_info.model, pk=object_id)
-
-        if not password_correct(password):
-            messages.error(request,
-                           "Password salah, " + model_name + " tidak dihapus")
-            return redirect(model_info.view_read)
-
         instance.delete()
         messages.success(request, model_name + " berhasil dihapus!")
         return redirect(model_info.view_read)
