@@ -10,10 +10,9 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import PermissionDenied
 
 from main.api import get_instances_json
-from main.instance_views import create_or_update_instance, delete_instance
+from main.instance_views import create_instance, update_instance, delete_instance
 from main.models import Blog, Experience, Project
 
 from markdown import markdown
@@ -96,25 +95,19 @@ def show_blog_post(request: HttpRequest, title: str):
 
 def delete_view(model_name: str):
     def inner(request: HttpRequest, instance_id: UUID):
-        if not request.user.is_superuser:
-            raise PermissionDenied
-
         return delete_instance(request, model_name, instance_id)
     return inner
 
 
 def create_view(model_name: str):
     def inner(request: HttpRequest):
-        if not request.user.is_superuser:
-            raise PermissionDenied
-
-        return create_or_update_instance(request, model_name)
+        return create_instance(request, model_name)
     return inner
 
 
 def update_view(model_name: str):
     def inner(request: HttpRequest, instance_id: UUID):
-        return create_or_update_instance(request, model_name, instance_id)
+        return update_instance(request, model_name, instance_id)
     return inner
 
 

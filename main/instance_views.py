@@ -8,9 +8,10 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.forms import ModelForm
 
+from main.admin import EDITOR_GROUP
 from main.forms import ExperienceForm, ProjectForm, BlogForm
 from main.models import Experience, Project, Blog
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 @dataclass
@@ -54,24 +55,16 @@ MODEL_VIEW_INFO = {
 
 
 @login_required(login_url="/login/")
-def create_or_update_instance(
+@user_passes_test(lambda u: u.is_superuser)
+def create_instance(
     request: HttpRequest,
     model_name: str,
-    instance_id: UUID | None = None,
 ):
     model_info = MODEL_VIEW_INFO[model_name]
 
-    instance = get_object_or_404(model_info.model, pk=instance_id) \
-        if instance_id else None
-
-    form = model_info.form(request.POST or None, instance=instance)
+    form = model_info.form(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
-        if instance_id:
-            return redirect(model_info.view_update, instance_id)
-        else:
-            return redirect(model_info.view_create)
-
         form.save()
         messages.success(request,
                          "data " + model_name + " baru berhasil ditambahkan!")
@@ -82,20 +75,47 @@ def create_or_update_instance(
         'form': form,
         'model_name': model_name,
         'exit_redirect': model_info.view_read,
-        'view_name':
-            model_info.view_update
-            if instance_id else model_info.view_create,
-        'form_instance': instance_id,
+        'view_name': model_info.view_create,
     }
 
-    return render(request, "model_form.html", context)
+    return render(request, "model_create_form.html", context)
 
 
 @login_required(login_url="/login/")
+def update_instance(
+    request: HttpRequest,
+    model_name: str,
+    instance_id: UUID,
+):
+    model_info = MODEL_VIEW_INFO[model_name]
+
+    instance = get_object_or_404(model_info.model, pk=instance_id)
+    form = model_info.form(request.POST or None, instance=instance)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request,
+                         "data " + model_name + " baru berhasil ditambahkan!")
+        return redirect(model_info.view_read)
+
+    context = {
+        'name': 'Faeiz Faiza Fasha',
+        'form': form,
+        'model_name': model_name,
+        'exit_redirect': model_info.view_read,
+        'view_name': model_info.view_update,
+        'form_instance': instance_id,
+    }
+
+    return render(request, "model_update_form.html", context)
+
+
+@login_required(login_url="/login/")
+@user_passes_test(lambda u: u.is_superuser)
 def delete_instance(
-        request: HttpRequest,
-        model_name: str,
-        object_id: UUID,
+    request: HttpRequest,
+    model_name: str,
+    object_id: UUID,
 ):
     model_info = MODEL_VIEW_INFO[model_name]
 

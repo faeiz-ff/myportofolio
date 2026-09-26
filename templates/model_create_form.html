@@ -1,29 +1,16 @@
 {% extends "base.html" %}
 
 {% block meta %}
-{% if form_instance %}
-    <title>Ubah {{ model_name }} - {{ name }}</title>
-{% else %}
-    <title>Tambah {{ model_name }} - {{ name }}</title>
-{% endif %}
+<title>Tambah {{ model_name }} - {{ name }}</title>
 {% endblock meta %}
 
 {% block content %}
     <section class="main-content">
         <div class="container">
-            {% if form_instance %}
-            <h1>Ubah {{ model_name }} '{{ form.title.value }}' </h1>
-            {% else %}
             <h1>Tambah {{ model_name }} Baru</h1>
-            {% endif %}
             <form 
                 method="post" 
-                action=
-                    {% if form_instance %} 
-                        "{% url view_name form_instance %}"
-                    {% else %}
-                        "{% url view_name %}"
-                    {% endif %}
+                action="{% url view_name %}"
                 class="model-form">
                 {% csrf_token %}
                 {% for field in form %}
@@ -36,11 +23,7 @@
                 {% endfor %}
                 {% endfor %}
                 <div class="form-footer">
-                    {% if form_instance %} 
-                        <button type="submit">Ubah {{ model_name }}</button>
-                    {% else %}
-                        <button type="submit">Tambah {{ model_name }}</button>
-                    {% endif %}
+                    <button type="submit">Tambah {{ model_name }}</button>
                     <a href="{% url exit_redirect %}" class="link-button">Batal</a>
                 </div>
             </form>
