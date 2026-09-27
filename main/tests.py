@@ -146,10 +146,3 @@ class MainTest(TestCase):
         self.assertTrue("application/json" in response._content_type_for_repr)
         projects = MainTest.deserialize(response)
         self.assertEqual(projects[0].title, self.blog.title)
-
-
-
-
-
-
-

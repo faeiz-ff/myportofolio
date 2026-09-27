@@ -11,8 +11,10 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+from main.admin import EDITOR_GROUP
 from main.api import get_instances_json
 from main.instance_views import (
+    group_required,
     create_instance,
     update_instance,
     delete_instance,
@@ -123,6 +125,7 @@ def toggle_star_view(model_name: str):
 
 
 @login_required(login_url="/login/")
+@group_required(EDITOR_GROUP)
 def show_root(request: HttpRequest):
     context = {
         'projects': Project.objects.all(),
