@@ -3,11 +3,13 @@ from uuid import UUID
 from dataclasses import dataclass
 
 from django.contrib import messages
+from django.contrib.auth import PermissionDenied
 from django.db.models import Model
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.forms import ModelForm
 
+from main.admin import EDITOR_GROUP
 from main.forms import ExperienceForm, ProjectForm, BlogForm
 from main.models import Experience, Project, Blog
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -53,6 +55,19 @@ MODEL_VIEW_INFO = {
 }
 
 
+# Decorates a view that needs certain groups
+def group_required(*group_names):
+    def decorator(view_func):
+        def wrapper(request, *args, **kwargs):
+            if request.user.is_superuser or \
+                    request.user.is_authenticated and \
+                    request.user.groups.filter(name__in=group_names).exists():
+                return view_func(request, *args, **kwargs)
+            raise PermissionDenied
+        return wrapper
+    return decorator
+
+
 @login_required(login_url="/login/")
 @user_passes_test(lambda u: u.is_superuser)
 def create_instance(
@@ -80,6 +95,7 @@ def create_instance(
 
 
 @login_required(login_url="/login/")
+@group_required(EDITOR_GROUP)
 def update_instance(
     request: HttpRequest,
     model_name: str,
@@ -139,5 +155,3 @@ def toggle_star(request: HttpRequest, model_name: str, object_id: UUID):
             instance.starred_by.add(request.user)
 
     return redirect(model_info.view_read)
-
-
