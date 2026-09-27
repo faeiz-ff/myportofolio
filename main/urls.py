@@ -16,7 +16,7 @@ from main.views import (
     register,
     login_user,
     logout_user,
-    toggle_star
+    toggle_star_view,
 )
 
 from main.models import Experience, Project, Blog
@@ -29,7 +29,7 @@ project = (
         path("tambah/", create_view('project'), name="create"),
         path("<uuid:instance_id>/ubah/", update_view('project'), name="update"),
         path("<uuid:instance_id>/hapus/", delete_view('project'), name="delete"),
-        path("<uuid:project_id>/star/", toggle_star, name="toggle_star"),
+        path("<uuid:instance_id>/star/", toggle_star_view('project'), name="toggle_star"),
     ],
     "project"
 )
@@ -54,6 +54,7 @@ blog = (
         path("<uuid:instance_id>/ubah/", update_view('blog'), name="update"),
         path("<uuid:instance_id>/hapus/", delete_view('blog'), name="delete"),
         path("title/<str:title>/", show_blog_post, name="show_post"),
+        path("<uuid:instance_id>/star/", toggle_star_view('blog'), name="toggle_star"),
     ],
     "blog"
 )
