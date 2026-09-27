@@ -11,5 +11,8 @@
         <p>[{{ created_at }}]</p>
         {{ html }}
     </article>
+    <div class="action">
+        {% include "components/instance_star.html" with instance=blog toggle_star_view='main:blog:toggle_star' %}
+    </div>
 </div>
 {% endblock %}
