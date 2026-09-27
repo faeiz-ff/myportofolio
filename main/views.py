@@ -3,7 +3,7 @@ from uuid import UUID
 from django.core import serializers
 from django.db.models import Model
 from django.http import HttpRequest
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 
 from django.contrib import messages
@@ -12,7 +12,12 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from main.api import get_instances_json
-from main.instance_views import create_instance, update_instance, delete_instance
+from main.instance_views import (
+    create_instance,
+    update_instance,
+    delete_instance,
+    toggle_star
+)
 from main.models import Blog, Experience, Project
 
 from markdown import markdown
@@ -111,21 +116,13 @@ def update_view(model_name: str):
     return inner
 
 
+def toggle_star_view(model_name: str):
+    def inner(request: HttpRequest, instance_id: UUID):
+        return toggle_star(request, model_name, instance_id)
+    return inner
+
+
 @login_required(login_url="/login/")
-def toggle_star(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
-
-    if request.method == "POST":
-        # Kalau akun ini sudah pernah memberi star, batalkan star-nya.
-        # Kalau belum, tambahkan star.
-        if request.user in project.starred_by.all():
-            project.starred_by.remove(request.user)
-        else:
-            project.starred_by.add(request.user)
-
-    return redirect("main:project:show")
-
-
 def show_root(request: HttpRequest):
     context = {
         'projects': Project.objects.all(),

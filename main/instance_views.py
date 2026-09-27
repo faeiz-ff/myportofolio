@@ -123,3 +123,21 @@ def delete_instance(
         return redirect(model_info.view_read)
 
     return redirect(model_info.view_read)
+
+
+@login_required(login_url="/login/")
+def toggle_star(request: HttpRequest, model_name: str, object_id: UUID):
+    model_info = MODEL_VIEW_INFO[model_name]
+    instance = get_object_or_404(model_info.model, pk=object_id)
+
+    if request.method == "POST":
+        # Kalau akun ini sudah pernah memberi star, batalkan star-nya.
+        # Kalau belum, tambahkan star.
+        if request.user in instance.starred_by.all():
+            instance.starred_by.remove(request.user)
+        else:
+            instance.starred_by.add(request.user)
+
+    return redirect(model_info.view_read)
+
+

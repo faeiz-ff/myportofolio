@@ -24,7 +24,7 @@
                         {% if project.has_other_link %}
                         <a class="link-button" href="{{ project.other_link }}">Website</a>
                         {% endif %}
-                        {% include "components/project_star.html" with project=project %}
+                        {% include "components/instance_star.html" with instance=project toggle_star_view='main:project:toggle_star' %}
                     </nav>
                     <!-- TODO: DO CONSIDER THE SAFETY OF THIS: MAY CONTAINS UNSAFE HTML -->
                     <!-- for now, the data is manually inputted, so it is safe -->

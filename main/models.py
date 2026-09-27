@@ -86,6 +86,10 @@ class Blog(models.Model):
     text = models.TextField()
     created_at = models.DateField(default=django.utils.timezone.now)
 
+    starred_by = models.ManyToManyField(
+        User, related_name="starred_blogs", blank=True,
+    )
+
     @property
     def created_at_str(self) -> str:
         return self.created_at.strftime("%d %b %Y")
