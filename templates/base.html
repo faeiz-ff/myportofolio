@@ -30,6 +30,9 @@
             {% endif %}                   
         </nav>
     </header>
+    <button class="button button-secondary" onclick="showToast('Notifikasi Sistem', 'Data berhasil dimuat dengan baik!', 'success')">
+        Test Toast Notifikasi
+    </button>
     <main>
         {% if messages %}
         <div class="messages-container">
@@ -53,6 +56,7 @@
         </label>
     </footer>
     </div>
+    {% include 'components/toast.html' %}
 
     <script>
         // Theme Picker Logic
