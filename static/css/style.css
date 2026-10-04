@@ -603,7 +603,7 @@ select {
     inset: auto 2rem 2rem auto;
     margin: 0;
     padding: 1rem 1.5rem;
-    border-radius: var(--radius);
+    border-radius: 5px;
     box-shadow: 0 10px 25px rgba(28, 25, 23, 0.15);
     display: none;
     align-items: center;
@@ -638,13 +638,13 @@ select {
 
 .toast-message {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: var(--main-text);
 }
 
 /* Modifikasi border kiri berdasarkan tipe notifikasi */
 .toast-success { border-left: 4px solid #22c55e; }
 .toast-error { border-left: 4px solid #b42318; }
-.toast-normal { border-left: 4px solid var(--accent); }
+.toast-normal { border-left: 4px solid var(--main-accent); }
 
 .hide {
     display: none !important;
