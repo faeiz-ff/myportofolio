@@ -21,18 +21,30 @@
 const SEARCH_DEBOUNCE_DELAY = 300;
 let searchDebounceTimer;
 let instancesAbortController;
-// Konfigurasi
+const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
+const csrf_token = `{% csrf_token %}`;
 
+// Konfigurasi
 {% if model == "project" %}
     const BASE_ENDPOINT = "{% url 'main:api:get_projects_json' %}";
-    const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
     const BASE_DELETE_URL = "{% url 'main:project:delete' '00000000-0000-0000-0000-000000000000' %}";
     const BASE_STAR_URL = "{% url 'main:project:toggle_star' '00000000-0000-0000-0000-000000000000' %}";
     const CREATE_PROJECT_ENDPOINT = "{% url 'main:project:ajax' %}";
     const MODEL_NAME = `proyek`;
-    const csrf_token = `{% csrf_token %}`;
-    </script>
-    <script src="{% static 'js/project-card.js' %}"></script>
+{% elif model == "blog" %}
+    const BASE_ENDPOINT = "{% url 'main:api:get_blogs_json' %}";
+    const BASE_DELETE_URL = "{% url 'main:blog:delete' '00000000-0000-0000-0000-000000000000' %}";
+    const BASE_STAR_URL = "{% url 'main:blog:toggle_star' '00000000-0000-0000-0000-000000000000' %}";
+    const BASE_BLOG_POST_URL = "{% url 'main:blog:show_post' 'Manifesto' %}"
+    const CREATE_PROJECT_ENDPOINT = "{% url 'main:blog:ajax' %}";
+    const MODEL_NAME = `blog`;
 {% endif %}
 
+</script>
+
+{% if model == "project" %}
+<script src="{% static 'js/project-card.js' %}"></script>
+{% elif model == "blog" %}
+<script src="{% static 'js/blog-card.js' %}"></script>
+{% endif %}
 <script src="{% static 'js/fetch-ajax.js' %}"></script>

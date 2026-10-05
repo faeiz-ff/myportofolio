@@ -27,7 +27,7 @@
         </form>
 
         {% if user.is_superuser %}
-        {% include "components/instance_form_modal.html" with form=form create_url='main:project:create' %}
+        {% include "components/instance_form_modal.html" with form=form create_url='main:project:create' model_name="Proyek" %}
         {% endif %}
 
         {% include 'components/ajax-instances.html' with model="project" %}
