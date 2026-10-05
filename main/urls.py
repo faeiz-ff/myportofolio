@@ -9,7 +9,7 @@ from main.views import (
     delete_view,
     show_main,
     show_experience,
-    show_project,
+    show_projects,
     show_blog,
     show_blog_post,
     show_root,
@@ -26,7 +26,7 @@ app_name = "main"
 
 project = (
     [
-        path("", show_project, name="show"),
+        path("", show_projects, name="show"),
         path("tambah/", create_view('project'), name="create"),
         path("<uuid:instance_id>/ubah/", update_view('project'), name="update"),
         path("<uuid:instance_id>/hapus/", delete_view('project'), name="delete"),

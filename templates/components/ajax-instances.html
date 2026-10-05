@@ -1,0 +1,38 @@
+{% load static %}
+<!-- Loading State -->
+<div id="loading" class="hide">
+    <p>Memuat data...</p>
+</div>
+
+<!-- Error State -->
+<div id="error" class="hide">
+    <p>Gagal memuat data. Silakan coba lagi.</p>
+</div>
+
+<!-- Empty State -->
+<div id="empty" class="hide">
+    <p>Belum ada data yang ditambahkan atau ditemukan.</p>
+</div>
+
+<!-- Content List -->
+<ul id="instance-list" class="hide"></ul>
+
+<script>
+const SEARCH_DEBOUNCE_DELAY = 300;
+let searchDebounceTimer;
+let instancesAbortController;
+// Konfigurasi
+
+{% if model == "project" %}
+    const BASE_ENDPOINT = "{% url 'main:api:get_projects_json' %}";
+    const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
+    const BASE_DELETE_URL = "{% url 'main:project:delete' '00000000-0000-0000-0000-000000000000' %}";
+    const BASE_STAR_URL = "{% url 'main:project:toggle_star' '00000000-0000-0000-0000-000000000000' %}";
+    const CREATE_PROJECT_ENDPOINT = "{% url 'main:project:ajax' %}";
+    const MODEL_NAME = `proyek`;
+    const csrf_token = `{% csrf_token %}`;
+    </script>
+    <script src="{% static 'js/project-card.js' %}"></script>
+{% endif %}
+
+<script src="{% static 'js/fetch-ajax.js' %}"></script>

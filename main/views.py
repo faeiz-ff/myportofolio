@@ -72,12 +72,10 @@ def show_instances(request: HttpRequest, model: type[Model], template: str):
 def show_projects(request: HttpRequest):
     title_query = request.GET.get("title", "").strip()
 
-    form = ProjectForm()
-
     context = {
         "name": "Faeiz Faiza Fasha",
         "title_query": title_query,
-        "form": form,
+        "form": ProjectForm(),
     }
     return render(request, "project.html", context)
 
