@@ -2,7 +2,7 @@ from uuid import UUID
 
 from django.core import serializers
 from django.db.models import Model
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.utils.safestring import mark_safe
 
@@ -10,7 +10,6 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
 
 from main.admin import EDITOR_GROUP
 from main.api import get_instances_json
@@ -187,24 +186,5 @@ def logout_user(request):
     response = redirect("main:show_main")
     response.delete_cookie('last_login')
     return response
-
-
-@require_POST
-def create_project_ajax(request):
-    if not request.user.is_superuser:
-        return JsonResponse(
-            {"message": "Hanya pemilik portofolio yang dapat menambahkan proyek."},
-            status=403,
-        )
-
-    form = ProjectForm(request.POST)
-    if form.is_valid():
-        project = form.save()
-        return JsonResponse(
-            {"message": "Proyek berhasil ditambahkan.", "pk": str(project.id)},
-            status=201,
-        )
-
-    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
 
 

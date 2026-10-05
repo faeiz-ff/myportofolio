@@ -1,7 +1,10 @@
 
+from django.contrib.auth.decorators import user_passes_test
 from django.core import serializers
 from django.db.models import Model
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
+from django.forms import ModelForm
 
 from main.models import Project
 
@@ -52,3 +55,21 @@ def get_projects_json(request):
         })
 
     return JsonResponse(data, safe=False)
+
+
+def create_ajax(Form: type[ModelForm]):
+    return lambda request: _create_ajax(request, Form)
+
+
+@require_POST
+@user_passes_test(lambda u: u.is_superuser)
+def _create_ajax(request: HttpRequest, Form: type[ModelForm]):
+    form = Form(request.POST)
+    if form.is_valid():
+        project = form.save()
+        return JsonResponse(
+            {"message": "Proyek berhasil ditambahkan.", "pk": str(project.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)

@@ -1,9 +1,14 @@
 from django.urls import include, path
 
-from main.api import get_instances_json_view, get_projects_json
+from main.forms import BlogForm, ProjectForm
+
+from main.api import (
+    get_instances_json_view,
+    get_projects_json,
+    create_ajax,
+)
 
 from main.views import (
-    create_project_ajax,
     create_view,
     update_view,
     delete_view,
@@ -20,7 +25,7 @@ from main.views import (
     toggle_star_view,
 )
 
-from main.models import Experience, Project, Blog
+from main.models import Blog, Experience
 
 app_name = "main"
 
@@ -30,8 +35,9 @@ project = (
         path("tambah/", create_view('project'), name="create"),
         path("<uuid:instance_id>/ubah/", update_view('project'), name="update"),
         path("<uuid:instance_id>/hapus/", delete_view('project'), name="delete"),
-        path("<uuid:instance_id>/star/", toggle_star_view('project'), name="toggle_star"),
-        path("add-ajax/", create_project_ajax, name="ajax"),
+        path("<uuid:instance_id>/star/",
+             toggle_star_view('project'), name="toggle_star"),
+        path("add-ajax/", create_ajax(ProjectForm), name="ajax"),
     ],
     "project"
 )
@@ -56,7 +62,9 @@ blog = (
         path("<uuid:instance_id>/ubah/", update_view('blog'), name="update"),
         path("<uuid:instance_id>/hapus/", delete_view('blog'), name="delete"),
         path("title/<str:title>/", show_blog_post, name="show_post"),
-        path("<uuid:instance_id>/star/", toggle_star_view('blog'), name="toggle_star"),
+        path("<uuid:instance_id>/star/",
+             toggle_star_view('blog'), name="toggle_star"),
+        path("add-ajax/", create_ajax(BlogForm), name="ajax"),
     ],
     "blog"
 )
