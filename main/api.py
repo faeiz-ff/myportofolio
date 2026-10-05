@@ -6,7 +6,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.forms import ModelForm
 
-from main.models import Project
+from main.models import Blog, Project
 
 
 def get_instances_json_view(model: type[Model]):
@@ -49,6 +49,35 @@ def get_projects_json(request):
                 "star_count": starred_users.count(),
                 "started_at": project.started_at,
                 "ended_at": project.ended_at,
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
+
+
+def get_blogs_json(request):
+    title_query = request.GET.get("title", "").strip()
+    blogs = Blog.objects.prefetch_related('starred_by').all()
+
+    if title_query:
+        blogs = blogs.filter(title__icontains=title_query)
+
+    # Konstruksi data JSON secara manual agar bisa menyisipkan logika Star
+    data = []
+    for blog in blogs:
+        starred_users = blog.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(blog.id),
+            "fields": {
+                "title": blog.title,
+                "text": blog.text,
+                "star_count": starred_users.count(),
+                "created_at": blog.created_at,
                 "is_starred": is_starred,
                 "starred_by_names": starred_by_names,
             }
