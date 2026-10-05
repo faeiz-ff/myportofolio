@@ -23,23 +23,34 @@ function buildCardElement(item) {
         ? `Dibintangi oleh ${escapeHtml(project.starred_by_names)}` 
         : "Jadilah yang pertama memberi star";
 
+
+    const git_link = `<a class="link-button" href="${project.git_link}">GitHub</a>`;
+    const other_link = project.other_link
+        ? `<a class="link-button" href="${project.other_link}">Website</a>`
+        : '';
+
     // Komponen card
     const completeCardHtml = `
-        <h2>${escapeHtml(project.title)}</h2>
-        <div class="actions">
-            <form method="post" action="${escapeHtml(starUrl)}" class="star-form">
-                ${csrf_token}
-                <button type="submit" 
-                        class="button button-star${escapeHtml(isStarredClass)}"
-                        title="${escapeHtml(starTitle)}">
-                    <span aria-hidden="true">★</span>
-                    ${escapeHtml(starText)}
-                    <span class="star-count">${escapeHtml(project.star_count)}</span>
-                </button>
-            </form>
-            ${deleteHtml}
-        </div>
-        <p class="experience-description">${escapeHtml(project.description)}</p>
+        <article>
+            <h2>${escapeHtml(project.title)}</h2>
+            <p>${project.time_range_str}</p>
+            <nav class="actions">
+                ${git_link}
+                ${other_link}
+                <form method="post" action="${escapeHtml(starUrl)}" class="star-form">
+                    ${csrf_token}
+                    <button type="submit" 
+                            class="button button-star${escapeHtml(isStarredClass)}"
+                            title="${escapeHtml(starTitle)}">
+                        <span aria-hidden="true">★</span>
+                        ${escapeHtml(starText)}
+                        <span class="star-count">${escapeHtml(project.star_count)}</span>
+                    </button>
+                </form>
+                ${deleteHtml}
+            </nav>
+            <p>${escapeHtml(project.description)}</p>
+        </article>
     `;
 
     listElement.innerHTML = completeCardHtml;

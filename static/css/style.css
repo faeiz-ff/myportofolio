@@ -392,7 +392,7 @@ select {
 .actions {
     display: flex;
     align-items: center;
-    column-gap: 20px;
+    column-gap: 1svw;
     margin: 1rem 0;
 }
 
@@ -486,8 +486,8 @@ select {
 .model-delete-modal__backdrop {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100lvw;
+    height: 100lvh;
     border: 0;
     padding: 0;
     background: rgba(28, 25, 23, 0.58);

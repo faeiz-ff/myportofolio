@@ -39,6 +39,9 @@ def get_projects_json(request):
         is_starred = request.user in starred_users if request.user.is_authenticated else False
         starred_by_names = ", ".join([u.username for u in starred_users])
 
+        time_range_str = project.get_time_range_str + \
+            (" - dalam pembangunan" if project.is_ongoing else "")
+
         data.append({
             "pk": str(project.id),
             "fields": {
@@ -49,6 +52,7 @@ def get_projects_json(request):
                 "star_count": starred_users.count(),
                 "started_at": project.started_at,
                 "ended_at": project.ended_at,
+                "time_range_str": time_range_str,
                 "is_starred": is_starred,
                 "starred_by_names": starred_by_names,
             }
