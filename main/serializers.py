@@ -1,4 +1,7 @@
+from datetime import datetime, date
+
 from django.utils.html import strip_tags
+from django.utils.dateparse import parse_date
 from rest_framework import serializers
 
 from main.models import Project
@@ -44,10 +47,30 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_starred_by_names(self, obj):
         return ", ".join(user.username for user in obj.starred_by.all())
 
-    def get_time_range_str(self, obj):
-        time_str = obj.started_at.strftime("%b %Y")
-        if obj.ended_at is not None:
-            time_str += obj.ended_at.strftime(
-                " - %b %Y") if not obj.is_ongoing else ""
+    def _format_date(self, value):
+        if not value:
+            return None
 
-        return time_str
+        # THIS IS WHAT HAPPENS TO A TYPE UNSAFE LANGUAGE
+        # LOOK
+        # LOOK AT THIS
+        if isinstance(value, str):
+            value = parse_date(value)
+
+        if isinstance(value, (date, datetime)):
+            return value.strftime("%b %Y")
+        return None
+
+    def get_time_range_str(self, obj):
+        start = self._format_date(obj.started_at)
+        if not start:
+            return ""
+
+        if getattr(obj, "is_ongoing", False):
+            return f"{start} - Present"
+
+        end = self._format_date(obj.ended_at)
+        if end:
+            return f"{start} - {end}"
+
+        return start

@@ -26,7 +26,7 @@ const csrf_token = `{% csrf_token %}`;
 
 // Konfigurasi
 {% if model == "project" %}
-    const BASE_ENDPOINT = "{% url 'api:get_projects_json' %}";
+    const BASE_ENDPOINT = "{% url 'api:projects' %}";
     const BASE_DELETE_URL = "{% url 'main:project:delete' '00000000-0000-0000-0000-000000000000' %}";
     const BASE_STAR_URL = "{% url 'main:project:toggle_star' '00000000-0000-0000-0000-000000000000' %}";
     const CREATE_PROJECT_ENDPOINT = "{% url 'main:project:ajax' %}";
