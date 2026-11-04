@@ -6,3 +6,4 @@ requests
 urllib3
 python-dotenv
 markdown
+djangorestframework~=3.18.3
