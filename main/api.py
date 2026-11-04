@@ -1,14 +1,26 @@
 
+from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.decorators import (
+    api_view, authentication_classes, permission_classes,
+)
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from main.models import Blog, Project
+from main.permissions import IsPortfolioOwnerOrReadOnly
+from main.serializers import ProjectSerializer
+
 from django.contrib.auth.decorators import user_passes_test
 from django.core import serializers
 from django.db.models import Model
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.forms import ModelForm
+from django.shortcuts import get_object_or_404
 
-from main.models import Blog, Project
 
-
+# TODO: Use a proper API lib
 def get_instances_json_view(model: type[Model]):
     return lambda request: get_instances_json(request, model)
 
@@ -106,3 +118,49 @@ def _create_ajax(request: HttpRequest, Form: type[ModelForm]):
         )
 
     return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+
+@api_view(["GET", "HEAD", "POST"])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def project_list(request):
+    if request.method in ("GET", "HEAD"):
+        projects = Project.objects.prefetch_related(
+            "starred_by").order_by("title", "id")
+        title = request.query_params.get("title", "").strip()
+        if title:
+            projects = projects.filter(title__icontains=title)
+        serializer = ProjectSerializer(
+            projects, many=True, context={"request": request},
+        )
+        return Response(serializer.data)
+
+    serializer = ProjectSerializer(
+        data=request.data, context={"request": request})
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def project_detail(request, project_id):
+    project = get_object_or_404(
+        Project.objects.prefetch_related("starred_by"), pk=project_id,
+    )
+    if request.method in ("GET", "HEAD"):
+        serializer = ProjectSerializer(project, context={"request": request})
+        return Response(serializer.data)
+
+    if request.method == "DELETE":
+        project.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    serializer = ProjectSerializer(
+        project, data=request.data, partial=request.method == "PATCH",
+        context={"request": request},
+    )
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data)
