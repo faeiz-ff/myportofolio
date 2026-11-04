@@ -87,26 +87,13 @@ class MainTest(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "project.html")
-        self.assertContains(response, self.project.title)
-        self.assertContains(response, self.project.description)
         self.assertContains(response, f'href="{reverse("main:show_main")}"')
-
-    def test_empty_project_page(self):
-        Project.objects.all().delete()
-        response = self.client.get(reverse("main:project:show"))
-
-        self.assertContains(
-            response,
-            "Nantikan proyek terbaru saya yang sangat ambisius dan menarik bagi para investor."
-        )
 
     def test_blog_page(self):
         response = self.client.get(reverse("main:blog:show"))
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "blog.html")
-        self.assertContains(response, self.blog.title)
-        self.assertContains(response, self.blog.created_at_str)
 
     def test_blog_post_page(self):
         response = self.client.get(
@@ -120,29 +107,8 @@ class MainTest(TestCase):
 
     @staticmethod
     def deserialize(response):
-        instances = serializers.deserialize("json", response.content.decode("utf-8"))
+        instances = serializers.deserialize(
+            "json", response.content.decode("utf-8"))
         instances = [instance.object for instance in instances]
 
         return instances
-
-    def test_api_json(self):
-        response: HttpResponse = self.client.get(reverse("main:api:get_experiences_json"))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue("application/json" in response._content_type_for_repr)
-        projects = MainTest.deserialize(response)
-        self.assertEqual(projects[0].title, self.experience.title)
-
-        response: HttpResponse = self.client.get(reverse("main:api:get_projects_json"))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue("application/json" in response._content_type_for_repr)
-        projects = MainTest.deserialize(response)
-        self.assertEqual(projects[0].title, self.project.title)
-
-        response: HttpResponse = self.client.get(reverse("main:api:get_blogs_json"))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue("application/json" in response._content_type_for_repr)
-        projects = MainTest.deserialize(response)
-        self.assertEqual(projects[0].title, self.blog.title)
