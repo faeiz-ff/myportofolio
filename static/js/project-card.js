@@ -1,6 +1,6 @@
 // Membuat elemen card project
 function buildCardElement(item) {
-    const project = item.fields;
+    const project = item;
     const projectId = item.pk;
 
     const listElement = document.createElement('li');
