@@ -1,14 +1,6 @@
 from django.urls import include, path
 
 from main.forms import BlogForm, ProjectForm
-
-from main.api import (
-    get_instances_json_view,
-    get_projects_json,
-    get_blogs_json,
-    create_ajax,
-)
-
 from main.views import (
     create_view,
     update_view,
@@ -26,7 +18,7 @@ from main.views import (
     toggle_star_view,
 )
 
-from main.models import Experience
+from main.api import create_ajax
 
 app_name = "main"
 
@@ -70,24 +62,12 @@ blog = (
     "blog"
 )
 
-
-api = (
-    [
-        path("proyek/", get_projects_json, name="get_projects_json"),
-        path("blog/", get_blogs_json, name="get_blogs_json"),
-        path("pengalaman/", get_instances_json_view(Experience),
-             name="get_experiences_json"),
-    ],
-    "api"
-)
-
 urlpatterns = [
     path("", show_main, name="show_main"),
     path("root/", show_root, name="root"),
     path("pengalaman/", include(experience)),
     path("proyek/", include(project)),
     path("blog/", include(blog)),
-    path("api/", include(api)),
     path("register/", register, name="register"),
     path("login/", login_user, name="login"),
     path("logout/", logout_user, name="logout"),
