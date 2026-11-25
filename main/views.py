@@ -12,7 +12,6 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from main.admin import EDITOR_GROUP
-from main.api import get_instances_json
 from main.forms import ProjectForm, BlogForm
 from main.instance_views import (
     group_required,
@@ -21,11 +20,45 @@ from main.instance_views import (
     delete_instance,
     toggle_star
 )
-from main.models import Blog, Experience, Project
 
 from markdown import markdown
 import datetime
 
+
+from main.models import Blog, Experience, Project
+from main.serializers import (
+    BlogSerializer, ExperienceSerializer, ProjectSerializer,
+)
+
+def _filter_by_title(request: HttpRequest, queryset):
+    title = request.GET.get("title", "").strip()
+    return queryset.filter(title__icontains=title) if title else queryset
+
+
+def get_projects_data(request: HttpRequest) -> list[dict]:
+    queryset = _filter_by_title(
+        request, Project.objects.prefetch_related("starred_by").order_by("title", "id"))
+    return list(ProjectSerializer(queryset, many=True, context={"request": request}).data)
+
+
+def get_experiences_data(request: HttpRequest) -> list[dict]:
+    queryset = _filter_by_title(
+        request, Experience.objects.order_by("-started_at", "id"))
+    return list(ExperienceSerializer(queryset, many=True, context={"request": request}).data)
+
+
+def get_blogs_data(request: HttpRequest) -> list[dict]:
+    queryset = _filter_by_title(
+        request, Blog.objects.prefetch_related("starred_by").order_by("-created_at", "id"))
+    return list(BlogSerializer(queryset, many=True, context={"request": request}).data)
+
+
+def show_instances(request: HttpRequest, get_data, template: str):
+    context = {
+        "instance_list": get_data(request),
+        "title_query": request.GET.get("title", "").strip(),
+    }
+    return render(request, template, context)
 
 def show_main(request):
     last_login = request.COOKIES.get(
@@ -48,24 +81,6 @@ def show_main(request):
     }
     return render(request, "about.html", context)
 
-
-def show_instances(request: HttpRequest, model: type[Model], template: str):
-    json_response = get_instances_json(request, model)
-
-    instances = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-
-    instances = [instance.object for instance in instances]
-    title_query = request.GET.get("title", "").strip()
-
-    context = {
-        "instance_list": instances,
-        "title_query": title_query,
-    }
-
-    return render(request, template, context)
 
 
 def show_projects(request: HttpRequest):

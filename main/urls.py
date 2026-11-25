@@ -1,6 +1,5 @@
 from django.urls import include, path
 
-from main.forms import BlogForm, ProjectForm
 from main.views import (
     create_view,
     update_view,
@@ -18,8 +17,6 @@ from main.views import (
     toggle_star_view,
 )
 
-from main.api import create_ajax
-
 app_name = "main"
 
 project = (
@@ -30,7 +27,6 @@ project = (
         path("<uuid:instance_id>/hapus/", delete_view('project'), name="delete"),
         path("<uuid:instance_id>/star/",
              toggle_star_view('project'), name="toggle_star"),
-        path("add-ajax/", create_ajax(ProjectForm), name="ajax"),
     ],
     "project"
 )
@@ -57,7 +53,6 @@ blog = (
         path("title/<str:title>/", show_blog_post, name="show_post"),
         path("<uuid:instance_id>/star/",
              toggle_star_view('blog'), name="toggle_star"),
-        path("add-ajax/", create_ajax(BlogForm), name="ajax"),
     ],
     "blog"
 )

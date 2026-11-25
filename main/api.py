@@ -1,4 +1,4 @@
-
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import (
@@ -7,174 +7,136 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from main.models import Blog, Project
+from main.models import Blog, Experience, Project
 from main.permissions import IsPortfolioOwnerOrReadOnly
-from main.serializers import ProjectSerializer
+from main.serializers import (
+    BlogSerializer, ExperienceSerializer, ProjectSerializer,
+)
 
-from django.contrib.auth.decorators import user_passes_test
-from django.core import serializers
-from django.db.models import Model
-from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.views.decorators.http import require_POST
-from django.forms import ModelForm
-from django.shortcuts import get_object_or_404
+AUTH = [SessionAuthentication]
+
+READ = ("GET", "HEAD")
 
 
-# TODO: Use a proper API lib
-def get_instances_json_view(model: type[Model]):
-    return lambda request: get_instances_json(request, model)
+# ---------- Shared helpers ----------
 
+def _list_or_create(request, queryset, serializer_class):
+    """GET/HEAD: list (optional ?title=). POST: create."""
+    context = {"request": request}
 
-def get_instances_json(request: HttpRequest, model: type[Model]):
-    title_query = request.GET.get("title", "").strip()
-    instances = model.objects.all()
-
-    if title_query:
-        instances = instances.filter(title__icontains=title_query)
-
-    instances_json = serializers.serialize(
-        'json', instances, use_natural_foreign_keys=True)
-    return HttpResponse(instances_json, content_type="application/json")
-
-
-def get_projects_json(request):
-    title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.prefetch_related('starred_by').all()
-
-    if title_query:
-        projects = projects.filter(title__icontains=title_query)
-
-    # Konstruksi data JSON secara manual agar bisa menyisipkan logika Star
-    data = []
-    for project in projects:
-        starred_users = project.starred_by.all()
-        is_starred = request.user in starred_users if request.user.is_authenticated else False
-        starred_by_names = ", ".join([u.username for u in starred_users])
-
-        time_range_str = project.get_time_range_str + \
-            (" - dalam pembangunan" if project.is_ongoing else "")
-
-        data.append({
-            "pk": str(project.id),
-            "fields": {
-                "title": project.title,
-                "description": project.description,
-                "git_link": project.git_link,
-                "other_link": project.other_link,
-                "star_count": starred_users.count(),
-                "started_at": project.started_at,
-                "ended_at": project.ended_at,
-                "time_range_str": time_range_str,
-                "is_starred": is_starred,
-                "starred_by_names": starred_by_names,
-            }
-        })
-
-    return JsonResponse(data, safe=False)
-
-
-def get_blogs_json(request):
-    title_query = request.GET.get("title", "").strip()
-    blogs = Blog.objects.prefetch_related('starred_by').all()
-
-    if title_query:
-        blogs = blogs.filter(title__icontains=title_query)
-
-    # Konstruksi data JSON secara manual agar bisa menyisipkan logika Star
-    data = []
-    for blog in blogs:
-        starred_users = blog.starred_by.all()
-        is_starred = request.user in starred_users if request.user.is_authenticated else False
-        starred_by_names = ", ".join([u.username for u in starred_users])
-
-        data.append({
-            "pk": str(blog.id),
-            "fields": {
-                "title": blog.title,
-                "text": blog.text,
-                "star_count": starred_users.count(),
-                "created_at": blog.created_at,
-                "is_starred": is_starred,
-                "starred_by_names": starred_by_names,
-            }
-        })
-
-    return JsonResponse(data, safe=False)
-
-
-def create_ajax(Form: type[ModelForm]):
-    return lambda request: _create_ajax(request, Form)
-
-
-@require_POST
-@user_passes_test(lambda u: u.is_superuser)
-def _create_ajax(request: HttpRequest, Form: type[ModelForm]):
-    form = Form(request.POST)
-    if form.is_valid():
-        project = form.save()
-        return JsonResponse(
-            {"message": "Proyek berhasil ditambahkan.", "pk": str(project.id)},
-            status=201,
-        )
-
-    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
-
-
-@api_view(["GET", "HEAD", "POST"])
-@authentication_classes([SessionAuthentication])
-@permission_classes([IsPortfolioOwnerOrReadOnly])
-def project_list(request):
-    if request.method in ("GET", "HEAD"):
-        projects = Project.objects.prefetch_related(
-            "starred_by").order_by("title", "id")
+    if request.method in READ:
         title = request.query_params.get("title", "").strip()
         if title:
-            projects = projects.filter(title__icontains=title)
-        serializer = ProjectSerializer(
-            projects, many=True, context={"request": request},
-        )
-        return Response(serializer.data)
+            queryset = queryset.filter(title__icontains=title)
+        return Response(serializer_class(queryset, many=True, context=context).data)
 
-    serializer = ProjectSerializer(
-        data=request.data, context={"request": request})
+    serializer = serializer_class(data=request.data, context=context)
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
-@authentication_classes([SessionAuthentication])
-@permission_classes([IsPortfolioOwnerOrReadOnly])
-def project_detail(request, project_id):
-    project = get_object_or_404(
-        Project.objects.prefetch_related("starred_by"), pk=project_id,
-    )
-    if request.method in ("GET", "HEAD"):
-        serializer = ProjectSerializer(project, context={"request": request})
-        return Response(serializer.data)
+def _retrieve_update_delete(request, instance, serializer_class):
+    """GET/HEAD: retrieve. PUT/PATCH: update. DELETE: remove."""
+    context = {"request": request}
+
+    if request.method in READ:
+        return Response(serializer_class(instance, context=context).data)
 
     if request.method == "DELETE":
-        project.delete()
+        instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    serializer = ProjectSerializer(
-        project, data=request.data, partial=request.method == "PATCH",
-        context={"request": request},
+    serializer = serializer_class(
+        instance, data=request.data, partial=request.method == "PATCH",
+        context=context,
     )
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(serializer.data)
 
 
+def _toggle_star(request, instance, serializer_class):
+    if instance.starred_by.filter(pk=request.user.pk).exists():
+        instance.starred_by.remove(request.user)
+    else:
+        instance.starred_by.add(request.user)
+    return Response(serializer_class(instance, context={"request": request}).data)
+
+
+# ---------- Project ----------
+
+@api_view(["GET", "HEAD", "POST"])
+@authentication_classes(AUTH)
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def project_list(request):
+    queryset = Project.objects.prefetch_related("starred_by").order_by("title", "id")
+    return _list_or_create(request, queryset, ProjectSerializer)
+
+
+@api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
+@authentication_classes(AUTH)
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def project_detail(request, project_id):
+    project = get_object_or_404(
+        Project.objects.prefetch_related("starred_by"), pk=project_id)
+    return _retrieve_update_delete(request, project, ProjectSerializer)
+
+
 @api_view(["POST"])
-@authentication_classes([SessionAuthentication])
+@authentication_classes(AUTH)
 @permission_classes([IsAuthenticated])
 def project_star(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
-    if project.starred_by.filter(pk=request.user.pk).exists():
-        project.starred_by.remove(request.user)
-    else:
-        project.starred_by.add(request.user)
-    serializer = ProjectSerializer(project, context={"request": request})
-    return Response(serializer.data)
+    project = get_object_or_404(
+        Project.objects.prefetch_related("starred_by"), pk=project_id)
+    return _toggle_star(request, project, ProjectSerializer)
 
+
+# ---------- Experience ----------
+
+@api_view(["GET", "HEAD", "POST"])
+@authentication_classes(AUTH)
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def experience_list(request):
+    """Extra filter: ?category=internship|research|volunteer|part-time|full-time|freelance."""
+    queryset = Experience.objects.order_by("-started_at", "id")
+    category = request.query_params.get("category", "").strip()
+    if category and request.method in READ:
+        queryset = queryset.filter(category=category)
+    return _list_or_create(request, queryset, ExperienceSerializer)
+
+
+@api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
+@authentication_classes(AUTH)
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def experience_detail(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+    return _retrieve_update_delete(request, experience, ExperienceSerializer)
+
+
+# ---------- Blog ----------
+
+@api_view(["GET", "HEAD", "POST"])
+@authentication_classes(AUTH)
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def blog_list(request):
+    queryset = Blog.objects.prefetch_related("starred_by").order_by("-created_at", "id")
+    return _list_or_create(request, queryset, BlogSerializer)
+
+
+@api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
+@authentication_classes(AUTH)
+@permission_classes([IsPortfolioOwnerOrReadOnly])
+def blog_detail(request, blog_id):
+    blog = get_object_or_404(
+        Blog.objects.prefetch_related("starred_by"), pk=blog_id)
+    return _retrieve_update_delete(request, blog, BlogSerializer)
+
+
+@api_view(["POST"])
+@authentication_classes(AUTH)
+@permission_classes([IsAuthenticated])
+def blog_star(request, blog_id):
+    blog = get_object_or_404(
+        Blog.objects.prefetch_related("starred_by"), pk=blog_id)
+    return _toggle_star(request, blog, BlogSerializer)

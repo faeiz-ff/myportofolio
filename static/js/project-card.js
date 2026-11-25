@@ -1,7 +1,6 @@
 // Membuat elemen card project
-function buildCardElement(item) {
-    const project = item;
-    const projectId = item.pk || item.id;
+function buildCardElement(project) {
+    const projectId = project.id;
 
     const listElement = document.createElement('li');
 
@@ -27,7 +26,7 @@ function buildCardElement(item) {
         : '';
 
     // Komponen card bersih tanpa wrapper form
-    const completeCardHtml = `
+    listElement.innerHTML = `
         <article>
             <h2>${escapeHtml(project.title)}</h2>
             <p>${escapeHtml(project.time_range_str)}</p>
@@ -48,7 +47,5 @@ function buildCardElement(item) {
             <p>${escapeHtml(project.description)}</p>
         </article>
     `;
-
-    listElement.innerHTML = completeCardHtml;
     return listElement;
 }

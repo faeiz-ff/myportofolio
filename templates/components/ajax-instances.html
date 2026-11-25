@@ -27,16 +27,16 @@ const csrf_token = `{% csrf_token %}`;
 // Konfigurasi
 {% if model == "project" %}
     const BASE_ENDPOINT = "{% url 'api:projects' %}";
-    const BASE_DELETE_URL = "{% url 'main:project:delete' '00000000-0000-0000-0000-000000000000' %}";
-    const BASE_STAR_URL = "{% url 'main:project:toggle_star' '00000000-0000-0000-0000-000000000000' %}";
-    const CREATE_PROJECT_ENDPOINT = "{% url 'main:project:ajax' %}";
+    const BASE_DETAIL_URL = "{% url 'api:project-detail' '00000000-0000-0000-0000-000000000000' %}";
+    const BASE_STAR_URL = "{% url 'api:project-star' '00000000-0000-0000-0000-000000000000' %}";
+    const CREATE_ENDPOINT = "{% url 'api:projects' %}";
     const MODEL_NAME = `proyek`;
 {% elif model == "blog" %}
-    const BASE_ENDPOINT = "{% url 'api:get_blogs_json' %}";
-    const BASE_DELETE_URL = "{% url 'main:blog:delete' '00000000-0000-0000-0000-000000000000' %}";
-    const BASE_STAR_URL = "{% url 'main:blog:toggle_star' '00000000-0000-0000-0000-000000000000' %}";
-    const BASE_BLOG_POST_URL = "{% url 'main:blog:show_post' 'Manifesto' %}"
-    const CREATE_PROJECT_ENDPOINT = "{% url 'main:blog:ajax' %}";
+    const BASE_ENDPOINT = "{% url 'api:blogs' %}";
+    const BASE_DETAIL_URL = "{% url 'api:blog-detail' '00000000-0000-0000-0000-000000000000' %}";
+    const BASE_STAR_URL = "{% url 'api:blog-star' '00000000-0000-0000-0000-000000000000' %}";
+    const BASE_BLOG_POST_URL = "{% url 'main:blog:show_post' 'Manifesto' %}";
+    const CREATE_ENDPOINT = "{% url 'api:blogs' %}";
     const MODEL_NAME = `blog`;
 {% endif %}
 
